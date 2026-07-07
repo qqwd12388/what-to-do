@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>做什么？</title>
+
+<!-- Preconnect for faster image loading -->
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+<link rel="dns-prefetch" href="https://images.unsplash.com" />
+<link rel="dns-prefetch" href="https://source.unsplash.com" />
+
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap');
 
@@ -16,7 +22,6 @@
     --text-dim: #8a857f;
     --accent: #e8784a;
     --accent-glow: rgba(232,120,74,0.3);
-    --card-radius: 16px;
   }
 
   body {
@@ -31,20 +36,10 @@
 
   /* ============ SCROLLING GRID BACKGROUND ============ */
   .bg-grid {
-    position: fixed;
-    inset: -50%;
-    z-index: 0;
-    display: flex;
-    gap: 14px;
-    opacity: 0.35;
-    pointer-events: none;
+    position: fixed; inset: -50%; z-index: 0;
+    display: flex; gap: 14px; opacity: 0.32; pointer-events: none;
   }
-  .bg-col {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
+  .bg-col { flex: 1; display: flex; flex-direction: column; gap: 14px; }
   .bg-col:nth-child(odd) { animation: scrollDown 80s linear infinite; }
   .bg-col:nth-child(even) { animation: scrollUp 95s linear infinite; }
   .bg-col:nth-child(3) { animation-duration: 70s; }
@@ -62,76 +57,40 @@
   }
 
   .bg-card {
-    background: var(--surface);
-    border-radius: 14px;
-    padding: 18px 14px;
-    text-align: center;
-    border: 1px solid rgba(255,255,255,0.04);
-    transition: all 0.6s ease;
+    background: var(--surface); border-radius: 14px; padding: 18px 14px;
+    text-align: center; border: 1px solid rgba(255,255,255,0.04);
   }
   .bg-card .mini-emoji { font-size: 1.6rem; display: block; margin-bottom: 6px; }
   .bg-card .mini-text { font-size: 0.7rem; color: var(--text-dim); letter-spacing: 0.04em; line-height: 1.4; }
 
   /* ============ OVERLAY ============ */
   .overlay {
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
     background: radial-gradient(ellipse at 50% 30%, rgba(15,15,15,0.4) 0%, rgba(15,15,15,0.92) 100%);
-    z-index: 1;
-    pointer-events: none;
   }
 
-  /* ============ MAIN BUTTON AREA ============ */
+  /* ============ MAIN BUTTON ============ */
   .hero {
-    position: fixed;
-    inset: 0;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    position: fixed; inset: 0; z-index: 10;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
     pointer-events: none;
   }
   .hero > * { pointer-events: auto; }
 
-  .label-row {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 2rem;
-  }
-  .label-line {
-    width: 32px;
-    height: 1px;
-    background: rgba(255,255,255,0.2);
-  }
-  .label-text {
-    font-size: 0.78rem;
-    letter-spacing: 0.3em;
-    color: var(--text-dim);
-    font-weight: 300;
-  }
+  .label-row { display: flex; align-items: center; gap: 16px; margin-bottom: 2rem; }
+  .label-line { width: 32px; height: 1px; background: rgba(255,255,255,0.2); }
+  .label-text { font-size: 0.78rem; letter-spacing: 0.3em; color: var(--text-dim); font-weight: 300; }
 
   .btn-main {
-    width: 170px;
-    height: 170px;
-    border-radius: 50%;
+    width: 170px; height: 170px; border-radius: 50%;
     border: 1.5px solid rgba(255,255,255,0.15);
     background: rgba(26,26,26,0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    color: var(--text);
-    font-size: 1.2rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    cursor: pointer;
-    transition: all 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
-    box-shadow:
-      0 0 0 0 var(--accent-glow),
-      0 8px 32px rgba(0,0,0,0.5);
-    position: relative;
-    user-select: none;
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    color: var(--text); font-size: 1.2rem; font-weight: 500; letter-spacing: 0.08em;
+    cursor: pointer; position: relative; user-select: none;
     -webkit-tap-highlight-color: transparent;
+    transition: all 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+    box-shadow: 0 0 0 0 var(--accent-glow), 0 8px 32px rgba(0,0,0,0.5);
     animation: breathe 3.5s ease-in-out infinite;
   }
   @keyframes breathe {
@@ -139,149 +98,64 @@
     50% { box-shadow: 0 0 0 18px transparent, 0 8px 40px rgba(0,0,0,0.6); }
   }
   .btn-main:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    transform: translateY(-3px);
-    box-shadow:
-      0 0 0 12px rgba(232,120,74,0.08),
-      0 16px 48px rgba(0,0,0,0.6);
+    border-color: var(--accent); color: var(--accent); transform: translateY(-3px);
+    box-shadow: 0 0 0 12px rgba(232,120,74,0.08), 0 16px 48px rgba(0,0,0,0.6);
     animation: none;
   }
-  .btn-main:active {
-    transform: scale(0.93);
-    transition: all 0.12s ease;
-  }
+  .btn-main:active { transform: scale(0.93); transition: all 0.12s ease; }
 
   .btn-ring {
-    position: absolute;
-    inset: -10px;
-    border-radius: 50%;
+    position: absolute; inset: -10px; border-radius: 50%;
     border: 1px solid rgba(255,255,255,0.06);
     animation: ringSpin 20s linear infinite;
   }
-  @keyframes ringSpin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
+  @keyframes ringSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-  .hint-row {
-    margin-top: 2.4rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+  .hint-row { margin-top: 2.4rem; display: flex; align-items: center; gap: 10px; }
   .hint-dot {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: var(--accent);
+    width: 5px; height: 5px; border-radius: 50%; background: var(--accent);
     animation: dotPulse 1.8s ease-in-out infinite;
   }
   .hint-dot:nth-child(2) { animation-delay: 0.2s; }
   .hint-dot:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes dotPulse {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 1; }
-  }
-  .hint-text {
-    font-size: 0.78rem;
-    color: var(--text-dim);
-    letter-spacing: 0.05em;
-    margin-left: 6px;
-  }
+  @keyframes dotPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+  .hint-text { font-size: 0.78rem; color: var(--text-dim); letter-spacing: 0.05em; margin-left: 6px; }
 
-  /* ============ HISTORY BAR (bottom) ============ */
+  /* ============ HISTORY BAR ============ */
   .history-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 20;
-    background: rgba(15,15,15,0.88);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding: 14px 0 18px;
-    transform: translateY(100%);
-    transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 20;
+    background: rgba(15,15,15,0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(255,255,255,0.06); padding: 14px 0 18px;
+    transform: translateY(100%); transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
   }
   .history-bar.visible { transform: translateY(0); }
 
   .history-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 24px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
+    max-width: 900px; margin: 0 auto; padding: 0 24px;
+    display: flex; align-items: center; gap: 14px;
   }
-  .history-count {
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 52px;
-  }
-  .history-count-num {
-    font-family: 'Noto Serif SC', serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--accent);
-    line-height: 1;
-  }
-  .history-count-label {
-    font-size: 0.62rem;
-    color: var(--text-dim);
-    letter-spacing: 0.05em;
-    margin-top: 3px;
-  }
-  .history-divider {
-    width: 1px;
-    height: 36px;
-    background: rgba(255,255,255,0.08);
-    flex-shrink: 0;
-  }
+  .history-count { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; min-width: 52px; }
+  .history-count-num { font-family: 'Noto Serif SC', serif; font-size: 1.5rem; font-weight: 700; color: var(--accent); line-height: 1; }
+  .history-count-label { font-size: 0.62rem; color: var(--text-dim); letter-spacing: 0.05em; margin-top: 3px; }
+  .history-divider { width: 1px; height: 36px; background: rgba(255,255,255,0.08); flex-shrink: 0; }
   .history-list {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    flex: 1;
-    padding: 4px 0;
+    display: flex; gap: 10px; overflow-x: auto; flex: 1; padding: 4px 0;
     scroll-behavior: smooth;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    -ms-overflow-style: none; scrollbar-width: none;
   }
   .history-list::-webkit-scrollbar { display: none; }
   .history-chip {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 8px 16px;
-    border-radius: 22px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.07);
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.25s ease;
+    flex-shrink: 0; display: flex; align-items: center; gap: 7px;
+    padding: 8px 16px; border-radius: 22px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+    cursor: pointer; white-space: nowrap; transition: all 0.25s ease;
     animation: chipIn 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
-    font-size: 0.82rem;
-    color: var(--text-dim);
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
+    font-size: 0.82rem; color: var(--text-dim);
+    user-select: none; -webkit-tap-highlight-color: transparent;
   }
-  .history-chip:hover {
-    background: rgba(255,255,255,0.08);
-    border-color: rgba(255,255,255,0.18);
-    color: #fff;
-    transform: translateY(-2px);
-  }
+  .history-chip:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); color: #fff; transform: translateY(-2px); }
   .history-chip .chip-emoji { font-size: 1rem; }
-  .history-chip .chip-idx {
-    font-size: 0.6rem;
-    color: rgba(255,255,255,0.2);
-    margin-left: 2px;
-    font-weight: 500;
-  }
+  .history-chip .chip-idx { font-size: 0.6rem; color: rgba(255,255,255,0.2); margin-left: 2px; font-weight: 500; }
   @keyframes chipIn {
     0% { opacity: 0; transform: translateX(-12px) scale(0.9); }
     100% { opacity: 1; transform: translateX(0) scale(1); }
@@ -289,223 +163,137 @@
 
   /* ============ DETAIL PANEL ============ */
   .detail-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.45s ease;
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(0,0,0,0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: center; padding: 2rem;
+    opacity: 0; pointer-events: none; transition: opacity 0.45s ease;
   }
-  .detail-overlay.active {
-    opacity: 1;
-    pointer-events: auto;
-  }
+  .detail-overlay.active { opacity: 1; pointer-events: auto; }
 
   .detail-card {
-    background: var(--surface);
-    border-radius: 24px;
-    width: 100%;
-    max-width: 520px;
-    overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.08);
+    background: var(--surface); border-radius: 24px; width: 100%; max-width: 520px;
+    overflow: hidden; border: 1px solid rgba(255,255,255,0.08);
     box-shadow: 0 32px 80px rgba(0,0,0,0.7);
     transform: translateY(40px) scale(0.92);
     transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
   }
-  .detail-overlay.active .detail-card {
-    transform: translateY(0) scale(1);
+  .detail-overlay.active .detail-card { transform: translateY(0) scale(1); }
+
+  /* --- IMAGE AREA --- */
+  .detail-img-wrap {
+    width: 100%; height: 260px; position: relative; overflow: hidden; background: #1a1a1a;
   }
 
-  .detail-img-wrap {
-    width: 100%;
-    height: 260px;
-    position: relative;
-    overflow: hidden;
-    background: #1a1a1a;
-  }
-  .detail-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.7s ease, opacity 0.5s ease;
-    opacity: 0;
-  }
-  .detail-img.loaded {
-    opacity: 1;
-  }
-  .detail-overlay.active .detail-img.loaded {
-    transform: scale(1.04);
-  }
-  .detail-img-gradient {
-    position: absolute;
-    inset: 0;
-    opacity: 0.6;
+  /* Layer 1: CSS Art (gradient + emoji + blobs) — instant, always visible */
+  .detail-art {
+    position: absolute; inset: 0; z-index: 1;
+    display: flex; align-items: center; justify-content: center;
     transition: opacity 0.5s ease;
   }
-  .detail-img.loaded + .detail-img-gradient { opacity: 0.15; }
+  .detail-art.dimmed { opacity: 0; }
 
+  .detail-art-emoji {
+    font-size: 5rem; position: relative; z-index: 3;
+    filter: drop-shadow(0 4px 20px rgba(0,0,0,0.5));
+    animation: artFloat 3s ease-in-out infinite;
+  }
+  @keyframes artFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  /* Decorative blobs in CSS art */
+  .detail-art-blob {
+    position: absolute; border-radius: 50%; z-index: 1;
+    animation: blobDrift 8s ease-in-out infinite;
+  }
+  @keyframes blobDrift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(12px, -16px) scale(1.1); }
+    66% { transform: translate(-8px, 10px) scale(0.92); }
+  }
+  .detail-img-gradient {
+    position: absolute; inset: 0; z-index: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  /* Layer 2: Real image — loads async, fades in on top */
+  .detail-img {
+    position: absolute; inset: 0; z-index: 2;
+    width: 100%; height: 100%; object-fit: cover;
+    opacity: 0; transition: opacity 0.6s ease;
+    transform: scale(1.02);
+  }
+  .detail-img.loaded { opacity: 1; transform: scale(1); transition: opacity 0.6s ease, transform 0.8s ease; }
+
+  /* Shimmer while loading */
+  .detail-shimmer {
+    position: absolute; inset: 0; z-index: 0;
+    background: linear-gradient(90deg,
+      transparent 0%, rgba(255,255,255,0.03) 50%, transparent 100%);
+    animation: shimmer 1.8s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  /* Badge */
   .detail-img-badge {
-    position: absolute;
-    top: 18px;
-    left: 18px;
-    background: rgba(0,0,0,0.55);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    color: #fff;
-    font-size: 0.72rem;
-    padding: 6px 14px;
-    border-radius: 20px;
-    letter-spacing: 0.06em;
-    font-weight: 400;
+    position: absolute; top: 18px; left: 18px; z-index: 5;
+    background: rgba(0,0,0,0.55); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    color: #fff; font-size: 0.72rem; padding: 6px 14px; border-radius: 20px;
+    letter-spacing: 0.06em; font-weight: 400;
   }
 
-  .detail-body {
-    padding: 2rem 2rem 2.2rem;
-    text-align: center;
-  }
+  /* --- CARD BODY --- */
+  .detail-body { padding: 2rem 2rem 2.2rem; text-align: center; }
   .detail-emoji {
-    font-size: 3.2rem;
-    display: block;
-    margin-top: -3rem;
-    margin-bottom: 0.6rem;
-    position: relative;
-    z-index: 2;
+    font-size: 3.2rem; display: block; margin-top: -3rem; margin-bottom: 0.6rem;
+    position: relative; z-index: 2;
     filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
   }
-  .detail-title {
-    font-family: 'Noto Serif SC', serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    margin-bottom: 0.5rem;
-    color: #fff;
-  }
-  .detail-desc {
-    font-size: 0.9rem;
-    color: var(--text-dim);
-    line-height: 1.7;
-    margin-bottom: 0.4rem;
-  }
-  .detail-tags {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 1.8rem;
-  }
-  .detail-tag {
-    font-size: 0.7rem;
-    padding: 5px 14px;
-    border-radius: 20px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    color: var(--text-dim);
-    letter-spacing: 0.04em;
-  }
+  .detail-title { font-family: 'Noto Serif SC', serif; font-size: 1.5rem; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 0.5rem; color: #fff; }
+  .detail-desc { font-size: 0.9rem; color: var(--text-dim); line-height: 1.7; margin-bottom: 0.4rem; }
+  .detail-tags { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 1.8rem; }
+  .detail-tag { font-size: 0.7rem; padding: 5px 14px; border-radius: 20px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); color: var(--text-dim); letter-spacing: 0.04em; }
 
-  .detail-actions {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .btn-action {
-    padding: 12px 28px;
-    border-radius: 28px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    cursor: pointer;
-    border: none;
-    transition: all 0.3s ease;
-    font-family: inherit;
-  }
-  .btn-primary {
-    background: var(--accent);
-    color: #fff;
-    box-shadow: 0 6px 24px rgba(232,120,74,0.3);
-  }
-  .btn-primary:hover {
-    background: #e98860;
-    transform: translateY(-1px);
-    box-shadow: 0 10px 32px rgba(232,120,74,0.4);
-  }
-  .btn-ghost {
-    background: transparent;
-    color: var(--text-dim);
-    border: 1px solid rgba(255,255,255,0.12);
-  }
-  .btn-ghost:hover {
-    border-color: rgba(255,255,255,0.3);
-    color: #fff;
-  }
+  .detail-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-action { padding: 12px 28px; border-radius: 28px; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.04em; cursor: pointer; border: none; transition: all 0.3s ease; font-family: inherit; }
+  .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 6px 24px rgba(232,120,74,0.3); }
+  .btn-primary:hover { background: #e98860; transform: translateY(-1px); box-shadow: 0 10px 32px rgba(232,120,74,0.4); }
+  .btn-ghost { background: transparent; color: var(--text-dim); border: 1px solid rgba(255,255,255,0.12); }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
   .btn-close {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.12);
-    color: #fff;
-    font-size: 1.1rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: absolute; top: 16px; right: 16px; z-index: 6;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(0,0,0,0.5); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.12); color: #fff;
+    font-size: 1.1rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
     transition: all 0.25s ease;
-    z-index: 5;
   }
-  .btn-close:hover {
-    background: rgba(255,255,255,0.1);
-    border-color: rgba(255,255,255,0.25);
-  }
+  .btn-close:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25); }
 
   /* ============ EMPTY STATE ============ */
-  .empty-state {
-    text-align: center;
-    color: rgba(255,255,255,0.15);
-    font-size: 0.78rem;
-    letter-spacing: 0.06em;
-    white-space: nowrap;
-    padding: 0 20px;
-  }
+  .empty-state { text-align: center; color: rgba(255,255,255,0.15); font-size: 0.78rem; letter-spacing: 0.06em; white-space: nowrap; padding: 0 20px; }
 
   /* ============ SITE FOOTER ============ */
   .site-footer {
-    position: fixed;
-    bottom: 2rem;
-    left: 0;
-    right: 0;
-    text-align: center;
-    z-index: 9;
-    font-size: 0.7rem;
-    color: rgba(255,255,255,0.18);
-    letter-spacing: 0.08em;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
+    position: fixed; bottom: 2rem; left: 0; right: 0; text-align: center; z-index: 9;
+    font-size: 0.7rem; color: rgba(255,255,255,0.18); letter-spacing: 0.08em;
+    pointer-events: none; transition: opacity 0.4s ease;
   }
 
   /* ============ RESPONSIVE ============ */
   @media (max-width: 600px) {
-    .bg-grid { gap: 10px; }
-    .bg-col { gap: 10px; }
+    .bg-grid { gap: 10px; } .bg-col { gap: 10px; }
     .bg-card { padding: 12px 8px; border-radius: 10px; }
-    .bg-card .mini-emoji { font-size: 1.2rem; }
-    .bg-card .mini-text { font-size: 0.62rem; }
+    .bg-card .mini-emoji { font-size: 1.2rem; } .bg-card .mini-text { font-size: 0.62rem; }
     .btn-main { width: 140px; height: 140px; font-size: 1.05rem; }
     .detail-card { max-width: 100%; border-radius: 18px; }
     .detail-img-wrap { height: 200px; }
+    .detail-art-emoji { font-size: 3.8rem; }
     .detail-body { padding: 1.5rem 1.2rem 1.8rem; }
     .detail-title { font-size: 1.25rem; }
     .history-bar { padding: 10px 0 14px; }
@@ -517,36 +305,28 @@
 </head>
 <body>
 
-<!-- ============ SCROLLING GRID BACKGROUND ============ -->
 <div class="bg-grid" id="bgGrid"></div>
-
-<!-- ============ AMBIENT OVERLAY ============ -->
 <div class="overlay"></div>
 
-<!-- ============ MAIN HERO ============ -->
+<!-- HERO -->
 <div class="hero">
   <div class="label-row">
     <span class="label-line"></span>
     <span class="label-text">今 日</span>
     <span class="label-line"></span>
   </div>
-
   <button class="btn-main" id="btnMain" title="点一下试试">
     <span class="btn-ring"></span>
     做什么？
   </button>
-
   <div class="hint-row">
-    <span class="hint-dot"></span>
-    <span class="hint-dot"></span>
-    <span class="hint-dot"></span>
+    <span class="hint-dot"></span><span class="hint-dot"></span><span class="hint-dot"></span>
     <span class="hint-text">点一下，给生活一点随机</span>
   </div>
 </div>
-
 <div class="site-footer" id="siteFooter">今日宜 · 随心而动</div>
 
-<!-- ============ HISTORY BAR ============ -->
+<!-- HISTORY BAR -->
 <div class="history-bar" id="historyBar">
   <div class="history-inner">
     <div class="history-count">
@@ -560,15 +340,31 @@
   </div>
 </div>
 
-<!-- ============ DETAIL OVERLAY ============ -->
+<!-- DETAIL OVERLAY -->
 <div class="detail-overlay" id="detailOverlay">
   <div class="detail-card" id="detailCard">
-    <div class="detail-img-wrap">
+    <div class="detail-img-wrap" id="detailImgWrap">
       <button class="btn-close" id="btnClose" title="返回">✕</button>
-      <img class="detail-img" id="detailImg" alt="" loading="lazy" />
+
+      <!-- Layer 0: Gradient background -->
       <div class="detail-img-gradient" id="detailGradient"></div>
+
+      <!-- Layer 0.5: Loading shimmer -->
+      <div class="detail-shimmer" id="detailShimmer"></div>
+
+      <!-- Layer 1: CSS Art (always renders instantly) -->
+      <div class="detail-art" id="detailArt">
+        <span class="detail-art-emoji" id="detailArtEmoji"></span>
+        <div class="detail-art-blob" id="detailBlob1"></div>
+        <div class="detail-art-blob" id="detailBlob2"></div>
+      </div>
+
+      <!-- Layer 2: Real image (loads async, fades in on top) -->
+      <img class="detail-img" id="detailImg" alt="" />
+
       <span class="detail-img-badge" id="detailBadge"></span>
     </div>
+
     <div class="detail-body">
       <span class="detail-emoji" id="detailEmoji"></span>
       <h2 class="detail-title" id="detailTitle"></h2>
@@ -584,84 +380,85 @@
 
 <script>
 // ============ TASK DATA (60 tasks) ============
-// image format: https://source.unsplash.com/800x500/?keyword1,keyword2
-// This redirects to a relevant Unsplash photo — reliable & diverse
-function img(kw) { return `https://source.unsplash.com/800x500/?${encodeURIComponent(kw)}`; }
+// Uses direct images.unsplash.com CDN URLs — no redirects, much faster.
+// Each task has: emoji, text, category, desc, tags, image (direct CDN), gradient (instant CSS art)
+
+function photo(id) { return `https://images.unsplash.com/photo-${id}?w=800&h=500&fit=crop&q=80&auto=format`; }
 
 const tasks = [
   // —— 美食 (10) ——
-  { emoji:'🍜', text:'去吃一份麻辣烫', category:'美食', desc:'街角那家小店，热腾腾的红油汤底，一口下去整个人都暖了。生活偶尔也需要一点辣。', tags:['治愈','一人食','街头'], image:img('mala,spicy,noodle,soup'), gradient:'linear-gradient(135deg,#c0392b,#e74c3c,#f39c12)' },
-  { emoji:'🍣', text:'去吃一顿日料', category:'美食', desc:'坐在吧台前，看师傅捏寿司，蘸一点酱油一口吃下。每一口都是对味蕾的尊重。', tags:['日料','精致','享受'], image:img('sushi,japanese,food'), gradient:'linear-gradient(135deg,#e65100,#ef6c00,#f57c00)' },
-  { emoji:'🍕', text:'吃一顿手工披萨', category:'美食', desc:'薄底、拉丝、现烤。找一家正宗披萨店，趁热咬下去——芝士能拉出半米长的幸福感。', tags:['披萨','满足','聚会'], image:img('pizza,italian,food,handmade'), gradient:'linear-gradient(135deg,#d84315,#e64a19,#bf360c)' },
-  { emoji:'🍲', text:'涮一顿火锅', category:'美食', desc:'约上两三好友，围着热气腾腾的锅底，涮毛肚、涮牛肉、涮笑声。没有什么是一顿火锅解决不了的。', tags:['火锅','聚会','温暖'], image:img('hotpot,chinese,food,spicy'), gradient:'linear-gradient(135deg,#b71c1c,#d32f2f,#e53935)' },
-  { emoji:'🥟', text:'去一家老字号吃饺子', category:'美食', desc:'手工擀皮、现包现煮，蘸上醋和辣椒油，一口一个。老店的味道，吃的是记忆。', tags:['饺子','传统','老店'], image:img('dumpling,chinese,dimsum'), gradient:'linear-gradient(135deg,#f9a825,#fbc02d,#fff176)' },
-  { emoji:'🍢', text:'去夜市吃烧烤', category:'美食', desc:'晚风、烟火气、滋滋作响的烤串。在夜市的人潮里穿行，左手烤面筋右手冰啤酒。', tags:['夜市','烧烤','烟火气'], image:img('bbq,nightmarket,streetfood'), gradient:'linear-gradient(135deg,#3e2723,#4e342e,#5d4037)' },
-  { emoji:'🍜', text:'吃一碗正宗的兰州拉面', category:'美食', desc:'看师傅现场拉面，面条在手中飞舞。一碗清汤牛肉面，汤清、萝卜白、辣油红、蒜苗绿。', tags:['拉面','传统','手艺'], image:img('lamian,noodle,chinese,handpulled'), gradient:'linear-gradient(135deg,#bf360c,#d84315,#e64a19)' },
-  { emoji:'🥞', text:'做一顿Brunch犒劳自己', category:'美食', desc:'睡到自然醒，煎个蛋、烤片面包、冲杯咖啡，摆盘拍张照。周末的仪式感从早午餐开始。', tags:['早午餐','周末','仪式感'], image:img('brunch,pancake,avocado,toast'), gradient:'linear-gradient(135deg,#fdd835,#ffee58,#fff176)' },
-  { emoji:'🍦', text:'吃一个冰淇淋', category:'美食', desc:'选最喜欢的口味，慢慢舔。感受冰凉在舌尖化开的瞬间。不管几岁，吃冰淇淋都是快乐的。', tags:['甜食','快乐','简单'], image:img('icecream,gelato,dessert'), gradient:'linear-gradient(135deg,#f8bbd0,#f48fb1,#ec407a)' },
-  { emoji:'🧋', text:'喝一杯珍珠奶茶', category:'美食', desc:'排队买一杯手摇奶茶，咬到珍珠的Q弹瞬间，碳水带来的快乐简单又直接。', tags:['奶茶','快乐','甜食'], image:img('bubbletea,boba,drink'), gradient:'linear-gradient(135deg,#795548,#8d6e63,#a1887f)' },
+  { emoji:'🍜', text:'去吃一份麻辣烫', category:'美食', desc:'街角那家小店，热腾腾的红油汤底，一口下去整个人都暖了。生活偶尔也需要一点辣。', tags:['治愈','一人食','街头'], image:photo('1555126634-323283e090fa'), gradient:'linear-gradient(135deg,#c0392b,#e74c3c,#f39c12)' },
+  { emoji:'🍣', text:'去吃一顿日料', category:'美食', desc:'坐在吧台前，看师傅捏寿司，蘸一点酱油一口吃下。每一口都是对味蕾的尊重。', tags:['日料','精致','享受'], image:photo('1553621044-4f6b0f9b9a7d'), gradient:'linear-gradient(135deg,#e65100,#ef6c00,#f57c00)' },
+  { emoji:'🍕', text:'吃一顿手工披萨', category:'美食', desc:'薄底、拉丝、现烤。找一家正宗披萨店，趁热咬下去——芝士能拉出半米长的幸福感。', tags:['披萨','满足','聚会'], image:photo('1565299624946-b28f40a0ae38'), gradient:'linear-gradient(135deg,#d84315,#e64a19,#bf360c)' },
+  { emoji:'🍲', text:'涮一顿火锅', category:'美食', desc:'约上三两好友围着热气腾腾的锅底，涮毛肚涮牛肉涮笑声。没有一顿火锅解决不了的事。', tags:['火锅','聚会','温暖'], image:photo('1617196034796-73dfa7b2fd56'), gradient:'linear-gradient(135deg,#b71c1c,#d32f2f,#e53935)' },
+  { emoji:'🥟', text:'去一家老字号吃饺子', category:'美食', desc:'手工擀皮、现包现煮，蘸上醋和辣椒油，一口一个。老店的味道，吃的是记忆。', tags:['饺子','传统','老店'], image:photo('1496116218417-1a781b1c416c'), gradient:'linear-gradient(135deg,#f9a825,#fbc02d,#fff176)' },
+  { emoji:'🍢', text:'去夜市吃烧烤', category:'美食', desc:'晚风、烟火气、滋滋作响的烤串。在夜市人潮里穿行，左手烤面筋右手冰啤酒。', tags:['夜市','烧烤','烟火气'], image:photo('1555939594-58d7cb561ad1'), gradient:'linear-gradient(135deg,#3e2723,#4e342e,#5d4037)' },
+  { emoji:'🍜', text:'吃一碗兰州拉面', category:'美食', desc:'看师傅现场拉面，面条在手中飞舞。一碗清汤牛肉面，汤清萝卜白辣油红蒜苗绿。', tags:['拉面','传统','手艺'], image:photo('1569718212165-3a8278d5f624'), gradient:'linear-gradient(135deg,#bf360c,#d84315,#e64a19)' },
+  { emoji:'🥞', text:'做一顿Brunch犒劳自己', category:'美食', desc:'睡到自然醒，煎蛋烤面包冲咖啡摆盘拍照。周末的仪式感从早午餐开始。', tags:['早午餐','周末','仪式感'], image:photo('1504674900247-0877df9cc836'), gradient:'linear-gradient(135deg,#fdd835,#ffee58,#fff176)' },
+  { emoji:'🍦', text:'吃一个冰淇淋', category:'美食', desc:'选最喜欢的口味慢慢舔。感受冰凉在舌尖化开。不管几岁，吃冰淇淋都是一件快乐的事。', tags:['甜食','快乐','简单'], image:photo('1501443762994-82d6a4d0f2a5'), gradient:'linear-gradient(135deg,#f8bbd0,#f48fb1,#ec407a)' },
+  { emoji:'🧋', text:'喝一杯珍珠奶茶', category:'美食', desc:'排队买一杯手摇奶茶，咬到珍珠的Q弹瞬间，碳水带来的快乐简单又直接。', tags:['奶茶','快乐','甜食'], image:photo('1558857563-c0cc2f2a2c2b'), gradient:'linear-gradient(135deg,#795548,#8d6e63,#a1887f)' },
 
   // —— 出行 (8) ——
-  { emoji:'🚶', text:'出门散步二十分钟', category:'出行', desc:'不设目的地，只是走走。看路边的树、巷口的猫、天上的云——附近还有很多没注意过的角落。', tags:['放松','户外','轻运动'], image:img('walking,park,path,nature'), gradient:'linear-gradient(135deg,#2e7d32,#388e3c,#4caf50)' },
-  { emoji:'🚲', text:'骑单车在城市闲逛', category:'出行', desc:'扫一辆共享单车，沿不熟悉的路骑。风吹过耳边，街景在后退——你会看到这座城市不同的一面。', tags:['探索','运动','自由'], image:img('bicycle,city,riding,urban'), gradient:'linear-gradient(135deg,#33691e,#558b2f,#689f38)' },
-  { emoji:'🏔️', text:'计划一次周末短途旅行', category:'出行', desc:'打开地图，找一个两小时内能到的地方。不需要长假，周末就够了。期待本身就是旅行最美好的部分。', tags:['旅行','计划','期待'], image:img('mountain,travel,hiking,adventure'), gradient:'linear-gradient(135deg,#1b5e20,#2e7d32,#388e3c)' },
-  { emoji:'🌅', text:'明天早起看日出', category:'出行', desc:'设一个日出前的闹钟，去视野开阔处等待。天边从深蓝变成橙红，太阳跳出来的那一刻，一切都值得。', tags:['自然','早起','震撼'], image:img('sunrise,morning,sky,golden'), gradient:'linear-gradient(135deg,#e65100,#f57c00,#ff9800)' },
-  { emoji:'🏖️', text:'去海边吹吹风', category:'出行', desc:'光脚踩在沙滩上，让海浪冲刷脚踝。咸咸的海风、远处的船鸣——大海永远是最好的心理医生。', tags:['大海','治愈','自由'], image:img('beach,ocean,coast,waves'), gradient:'linear-gradient(135deg,#0277bd,#039be5,#4fc3f7)' },
-  { emoji:'🏕️', text:'去野外露营一晚', category:'出行', desc:'搭帐篷、生篝火、烤棉花糖。远离城市灯光，抬头就是满天繁星。在大自然里睡一觉，醒来什么烦恼都没了。', tags:['露营','自然','星空'], image:img('camping,tent,bonfire,stars'), gradient:'linear-gradient(135deg,#1b5e20,#2e7d32,#43a047)' },
-  { emoji:'🚗', text:'来一场说走就走的自驾', category:'出行', desc:'加满油，随机选一个方向出发。路在车轮下延伸，歌在车里回荡。目的地不重要，在路上才重要。', tags:['自驾','自由','公路'], image:img('roadtrip,driving,highway,freedom'), gradient:'linear-gradient(135deg,#37474f,#455a64,#546e7a)' },
-  { emoji:'🏙️', text:'去一个没去过的街区探索', category:'出行', desc:'坐地铁到一个从没下过的站，在陌生的街道瞎逛。你会发现城市还有很多隐藏的宝藏。', tags:['探索','城市','惊喜'], image:img('city,neighborhood,explore,street'), gradient:'linear-gradient(135deg,#263238,#37474f,#455a64)' },
+  { emoji:'🚶', text:'出门散步二十分钟', category:'出行', desc:'不设目的地，只是走走。看路边的树、巷口的猫、天上的云——你会发现附近还有很多没注意过的角落。', tags:['放松','户外','轻运动'], image:photo('1444491741275-374ac1f9d720'), gradient:'linear-gradient(135deg,#2e7d32,#388e3c,#4caf50)' },
+  { emoji:'🚲', text:'骑单车在城市闲逛', category:'出行', desc:'扫一辆共享单车，沿不熟悉的路骑。风吹过耳边，街景在后退——你会看到这座城市不同的一面。', tags:['探索','运动','自由'], image:photo('1507035895480-2b3156c31f49'), gradient:'linear-gradient(135deg,#33691e,#558b2f,#689f38)' },
+  { emoji:'🏔️', text:'计划一次周末短途旅行', category:'出行', desc:'打开地图，找一个两小时内能到的地方。不需要长假，周末就够了。期待本身就是旅行最美好的部分。', tags:['旅行','计划','期待'], image:photo('1464822759023-7e4b1cd0e4e0'), gradient:'linear-gradient(135deg,#1b5e20,#2e7d32,#388e3c)' },
+  { emoji:'🌅', text:'明天早起看日出', category:'出行', desc:'设一个日出前的闹钟，去视野开阔处等待。天边从深蓝变成橙红，太阳跳出那一刻，一切都值得。', tags:['自然','早起','震撼'], image:photo('1500380804539-4a1c53e0c9e5'), gradient:'linear-gradient(135deg,#e65100,#f57c00,#ff9800)' },
+  { emoji:'🏖️', text:'去海边吹吹风', category:'出行', desc:'光脚踩在沙滩上，让海浪冲刷脚踝。咸咸的海风、远处的船鸣——大海永远是最好的心理医生。', tags:['大海','治愈','自由'], image:photo('1507525428034-b723cf961d3e'), gradient:'linear-gradient(135deg,#0277bd,#039be5,#4fc3f7)' },
+  { emoji:'🏕️', text:'去野外露营一晚', category:'出行', desc:'搭帐篷、生篝火、烤棉花糖。远离城市灯光，抬头就是满天繁星。在大自然里睡一觉，醒来烦恼都没了。', tags:['露营','自然','星空'], image:photo('1504280390367-361c97d6a52c'), gradient:'linear-gradient(135deg,#1b5e20,#2e7d32,#43a047)' },
+  { emoji:'🚗', text:'来一场说走就走的自驾', category:'出行', desc:'加满油，随机选一个方向。路在车轮下延伸，歌在车里回荡。目的地不重要，在路上才重要。', tags:['自驾','自由','公路'], image:photo('1469854523086-cc02fe5d8800'), gradient:'linear-gradient(135deg,#37474f,#455a64,#546e7a)' },
+  { emoji:'🏙️', text:'去一个没去过的街区', category:'出行', desc:'坐地铁到一个从没下过的站，在陌生街道瞎逛。你会发现城市还有很多隐藏的宝藏。', tags:['探索','城市','惊喜'], image:photo('1449824913935-59a10b8de1b7'), gradient:'linear-gradient(135deg,#263238,#37474f,#455a64)' },
 
   // —— 娱乐 (8) ——
-  { emoji:'🎬', text:'去看一场电影', category:'娱乐', desc:'选一部想看很久的片子，捧着爆米花在黑暗里沉浸两小时。银幕上的故事，是另一个世界在等你。', tags:['沉浸','独处','夜晚'], image:img('cinema,movie,theater,popcorn'), gradient:'linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)' },
-  { emoji:'🎵', text:'听一张没听过的专辑', category:'娱乐', desc:'关掉算法推荐，找一张完全陌生的专辑从头听到尾。像拆盲盒一样，说不定就遇到了下一首循环。', tags:['探索','音乐','惊喜'], image:img('music,vinyl,headphones,album'), gradient:'linear-gradient(135deg,#311b92,#4527a0,#5e35b1)' },
-  { emoji:'🎲', text:'玩一局桌游或卡牌', category:'娱乐', desc:'约上朋友家人，围着桌子开一盘。无论策略对决还是聚会游戏，笑声才是最终赢家。', tags:['朋友','游戏','欢乐'], image:img('boardgame,cards,play,fun'), gradient:'linear-gradient(135deg,#3e2723,#5d4037,#795548)' },
-  { emoji:'🎤', text:'去KTV唱歌', category:'娱乐', desc:'订一个小包厢，点一堆老歌，从周杰伦唱到陈奕迅。不管跑不跑调，唱出来就是爽。', tags:['唱歌','释放','朋友'], image:img('karaoke,singing,mic,music'), gradient:'linear-gradient(135deg,#6a1b9a,#8e24aa,#ab47bc)' },
-  { emoji:'🧩', text:'拼一幅拼图', category:'娱乐', desc:'把几百片碎片倒出来，一块一块地找、一片一片地对。最后一片嵌进去的时候，满足感无法替代。', tags:['专注','耐心','成就感'], image:img('puzzle,jigsaw,pieces,colorful'), gradient:'linear-gradient(135deg,#0277bd,#0288d1,#039be5)' },
-  { emoji:'🎮', text:'通关一个独立游戏', category:'娱乐', desc:'找一个短小精悍的独立游戏，一个下午通关它。看剧情、解谜题、享受制作组的心血——比刷手机有意义多了。', tags:['游戏','独立','专注'], image:img('videogame,gaming,indie,controller'), gradient:'linear-gradient(135deg,#1a237e,#283593,#3949ab)' },
-  { emoji:'🎪', text:'去逛一个展览或市集', category:'娱乐', desc:'周末总有各种有趣的展览或创意市集。去看看艺术家们都在做什么，说不定能淘到心水好物。', tags:['展览','市集','文艺'], image:img('exhibition,market,art,fair'), gradient:'linear-gradient(135deg,#e91e63,#ec407a,#f06292)' },
-  { emoji:'🎢', text:'去游乐园玩一天', category:'娱乐', desc:'坐过山车大声尖叫、在旋转木马上拍照、吃棉花糖。把烦恼都甩在离心力里，今天只要开心。', tags:['游乐园','刺激','快乐'], image:img('amusementpark,rollercoaster,fun,ferriswheel'), gradient:'linear-gradient(135deg,#c62828,#e53935,#ef5350)' },
+  { emoji:'🎬', text:'去看一场电影', category:'娱乐', desc:'选一部想看很久的片子，捧着爆米花在黑暗里沉浸两小时。银幕上的故事，是另一个世界在等你。', tags:['沉浸','独处','夜晚'], image:photo('1489596849921-66e4823d6c62'), gradient:'linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)' },
+  { emoji:'🎵', text:'听一张没听过的专辑', category:'娱乐', desc:'关掉算法推荐，找一张完全陌生的专辑从头听到尾。像拆盲盒一样，说不定就遇到了下一首循环。', tags:['探索','音乐','惊喜'], image:photo('1511671782779-c97d3d27a1d4'), gradient:'linear-gradient(135deg,#311b92,#4527a0,#5e35b1)' },
+  { emoji:'🎲', text:'玩一局桌游或卡牌', category:'娱乐', desc:'约上朋友家人围着桌子开一盘。无论策略对决还是聚会游戏，笑声才是最终赢家。', tags:['朋友','游戏','欢乐'], image:photo('1610890716177-6b1e6b4a94a2'), gradient:'linear-gradient(135deg,#3e2723,#5d4037,#795548)' },
+  { emoji:'🎤', text:'去KTV唱歌', category:'娱乐', desc:'订一个小包厢点一堆老歌，从周杰伦唱到陈奕迅。不管跑不跑调，唱出来就是爽。', tags:['唱歌','释放','朋友'], image:photo('1516223725307-6f76b9182a7e'), gradient:'linear-gradient(135deg,#6a1b9a,#8e24aa,#ab47bc)' },
+  { emoji:'🧩', text:'拼一幅拼图', category:'娱乐', desc:'把几百片碎片倒出来，一块一块找一片一片对。最后一片嵌进去时，满足感无法替代。', tags:['专注','耐心','成就感'], image:photo('1612528446444-9c4a2b2d0b6e'), gradient:'linear-gradient(135deg,#0277bd,#0288d1,#039be5)' },
+  { emoji:'🎮', text:'通关一个独立游戏', category:'娱乐', desc:'找一个短小精悍的独立游戏一个下午通关。看剧情解谜题享受制作组的心血——比刷手机有意义多了。', tags:['游戏','独立','专注'], image:photo('1552820728-8b83bb6b2cf2'), gradient:'linear-gradient(135deg,#1a237e,#283593,#3949ab)' },
+  { emoji:'🎪', text:'去逛一个展览或市集', category:'娱乐', desc:'周末总有各种有趣的展览或创意市集。去看看艺术家们都在做什么，说不定能淘到心水好物。', tags:['展览','市集','文艺'], image:photo('1531058020387-3be344556be6'), gradient:'linear-gradient(135deg,#e91e63,#ec407a,#f06292)' },
+  { emoji:'🎢', text:'去游乐园玩一天', category:'娱乐', desc:'坐过山车大声尖叫、旋转木马上拍照、吃棉花糖。把烦恼甩在离心力里，今天只要开心。', tags:['游乐园','刺激','快乐'], image:photo('1513889961551-628c1e5e2ee9'), gradient:'linear-gradient(135deg,#c62828,#e53935,#ef5350)' },
 
   // —— 创造 (8) ——
-  { emoji:'🍳', text:'做一道没做过的菜', category:'创造', desc:'翻翻菜谱，挑一道感兴趣的。切菜、下锅、调味——整个过程就是小小的创作。好吃或翻车，都是故事。', tags:['烹饪','挑战','动手'], image:img('cooking,kitchen,homemade,chef'), gradient:'linear-gradient(135deg,#bf360c,#d84315,#e64a19)' },
-  { emoji:'🎨', text:'随手画一幅小画', category:'创造', desc:'别管画得好不好。拿起手边的笔，画桌上的杯子、窗外的树、或者只是涂几块颜色。创作本身就治愈。', tags:['艺术','表达','自由'], image:img('painting,watercolor,drawing,art'), gradient:'linear-gradient(135deg,#4a148c,#6a1b9a,#8e24aa)' },
-  { emoji:'📝', text:'写一篇短日记或随笔', category:'创造', desc:'打开空白的文档，把脑子里转的那些念头都倒出来。不用修饰，不用给谁看。写完了，心就轻了。', tags:['写作','反思','自由'], image:img('writing,journal,notebook,pen'), gradient:'linear-gradient(135deg,#37474f,#546e7a,#607d8b)' },
-  { emoji:'📸', text:'出门拍一组照片', category:'创造', desc:'带上相机或手机，拍建筑光影、路人表情、街角细节。用镜头重新发现日常里的美。', tags:['摄影','观察','记录'], image:img('photography,camera,street,urban'), gradient:'linear-gradient(135deg,#212121,#424242,#616161)' },
-  { emoji:'🎸', text:'学弹一首简单的曲子', category:'创造', desc:'拿起落灰的吉他或尤克里里，学一首简单的歌。磕磕绊绊地弹，慢慢地就顺了。音乐从指尖流出的感觉很奇妙。', tags:['乐器','学习','音乐'], image:img('guitar,ukulele,music,acoustic'), gradient:'linear-gradient(135deg,#5d4037,#795548,#8d6e63)' },
-  { emoji:'🧶', text:'做一个小手工', category:'创造', desc:'编织、折纸、黏土、羊毛毡……选一个简单的手工，让双手忙起来。做出来的东西，丑也丑得可爱。', tags:['手工','专注','可爱'], image:img('craft,handmade,knitting,diy'), gradient:'linear-gradient(135deg,#e91e63,#f06292,#f48fb1)' },
-  { emoji:'🌱', text:'种一盆小植物', category:'创造', desc:'去花市挑一盆小绿植，给它起个名字、找一个阳光好的角落。每天看它长大一点点，生命真的很奇妙。', tags:['园艺','生命','陪伴'], image:img('plant,succulent,gardening,green'), gradient:'linear-gradient(135deg,#2e7d32,#43a047,#66bb6a)' },
-  { emoji:'💡', text:'整理并装饰你的书桌', category:'创造', desc:'重新布置桌面：理线、加一盏小灯、摆上喜欢的摆件。把书桌变成你喜欢待着的样子。', tags:['布置','桌面','改造'], image:img('desk,workspace,setup,decoration'), gradient:'linear-gradient(135deg,#546e7a,#607d8b,#78909c)' },
+  { emoji:'🍳', text:'做一道没做过的菜', category:'创造', desc:'翻翻菜谱挑一道感兴趣的。切菜、下锅、调味——整个过程就是小小的创作。好吃或翻车，都是故事。', tags:['烹饪','挑战','动手'], image:photo('1556909114-f6e7d4e1bd28'), gradient:'linear-gradient(135deg,#bf360c,#d84315,#e64a19)' },
+  { emoji:'🎨', text:'随手画一幅小画', category:'创造', desc:'别管画得好不好。拿起手边的笔画桌上的杯子窗外的树，或只是涂几块颜色。创作本身就治愈。', tags:['艺术','表达','自由'], image:photo('1513364776144-60967b0f800f'), gradient:'linear-gradient(135deg,#4a148c,#6a1b9a,#8e24aa)' },
+  { emoji:'📝', text:'写一篇短日记或随笔', category:'创造', desc:'打开空白文档，把脑子里转的念头都倒出来。不用修饰不用给谁看。写完了，心就轻了。', tags:['写作','反思','自由'], image:photo('1455390582284-e195a5e3e649'), gradient:'linear-gradient(135deg,#37474f,#546e7a,#607d8b)' },
+  { emoji:'📸', text:'出门拍一组照片', category:'创造', desc:'带上相机或手机拍建筑光影路人表情街角细节。用镜头重新发现日常里的美。', tags:['摄影','观察','记录'], image:photo('1452587926199-19e2b192f4a7'), gradient:'linear-gradient(135deg,#212121,#424242,#616161)' },
+  { emoji:'🎸', text:'学弹一首简单的曲子', category:'创造', desc:'拿起落灰的吉他或尤克里里学一首简单的歌。磕磕绊绊地弹慢慢就顺了。音乐从指尖流出很奇妙。', tags:['乐器','学习','音乐'], image:photo('1525201548942-d8732f6617a0'), gradient:'linear-gradient(135deg,#5d4037,#795548,#8d6e63)' },
+  { emoji:'🧶', text:'做一个小手工', category:'创造', desc:'编织、折纸、黏土、羊毛毡……选一个简单的手工让双手忙起来。做出来的东西丑也丑得可爱。', tags:['手工','专注','可爱'], image:photo('1460661419201-bd4d0bf48111'), gradient:'linear-gradient(135deg,#e91e63,#f06292,#f48fb1)' },
+  { emoji:'🌱', text:'种一盆小植物', category:'创造', desc:'去花市挑一盆小绿植，给它起名字找阳光好的角落。每天看它长大一点点，生命真的很奇妙。', tags:['园艺','生命','陪伴'], image:photo('1416879595882-3373a0480b5b'), gradient:'linear-gradient(135deg,#2e7d32,#43a047,#66bb6a)' },
+  { emoji:'💡', text:'整理并装饰你的书桌', category:'创造', desc:'重新布置桌面：理线、加一盏小灯、摆上喜欢的摆件。把书桌变成你喜欢待着的样子。', tags:['布置','桌面','改造'], image:photo('1498050108023-c5249f4df085'), gradient:'linear-gradient(135deg,#546e7a,#607d8b,#78909c)' },
 
   // —— 休闲 (10) ——
-  { emoji:'☕', text:'去喝一杯手冲咖啡', category:'休闲', desc:'推开咖啡店的门，闻着豆子研磨的香气，看咖啡师慢慢注水。等待的几分钟，本身就是一种享受。', tags:['慢生活','独处','品质'], image:img('coffee,pourover,cafe,barista'), gradient:'linear-gradient(135deg,#3e2723,#4e342e,#5d4037)' },
-  { emoji:'🍵', text:'泡一壶茶慢慢喝', category:'休闲', desc:'烧水、温杯、投茶、注水。一步一步，不急不躁。茶香弥漫时，时间也慢了下来。', tags:['茶道','安静','传统'], image:img('tea,teaceremony,chinese,green'), gradient:'linear-gradient(135deg,#33691e,#558b2f,#7cb342)' },
-  { emoji:'📖', text:'读半小时喜欢的书', category:'休闲', desc:'翻开那本在床头放了很久的书。半小时不长，但足够让你从日常的嘈杂里短暂抽身。', tags:['安静','成长','独处'], image:img('reading,book,cozy,library'), gradient:'linear-gradient(135deg,#1b1b2f,#2d2d44,#43436a)' },
-  { emoji:'🛁', text:'泡一个热水澡放松', category:'休闲', desc:'点上香薰，放好热水，沉进浴缸里。让热水带走一天的疲惫，这一刻只属于你自己。', tags:['放松','自我','犒劳'], image:img('bath,bathtub,relax,candle'), gradient:'linear-gradient(135deg,#00695c,#00897b,#26a69a)' },
-  { emoji:'🧘', text:'闭上眼睛冥想五分钟', category:'休闲', desc:'找个安静的地方坐下，闭眼，只关注呼吸。五分钟不长，但足够让你从混乱中回到当下。', tags:['冥想','平静','正念'], image:img('meditation,calm,mindfulness,peace'), gradient:'linear-gradient(135deg,#1a237e,#283593,#3949ab)' },
-  { emoji:'🌃', text:'去天台看城市夜景', category:'休闲', desc:'夜幕降临，万家灯火。站在高处看城市脉络，吹晚风——你会发现夜晚的城市有独特的温柔。', tags:['夜景','浪漫','独处'], image:img('citynight,skyline,night,lights'), gradient:'linear-gradient(135deg,#263238,#37474f,#455a64)' },
-  { emoji:'🕯️', text:'点上香薰放空一会儿', category:'休闲', desc:'关掉手机，点亮蜡烛，让喜欢的香味充满房间。什么都不做，就这样待着——这是最高级的休息。', tags:['香薰','放空','仪式感'], image:img('candle,aromatherapy,cozy,dim'), gradient:'linear-gradient(135deg,#4a148c,#6a1b9a,#7b1fa2)' },
-  { emoji:'🧖', text:'做一次面部护理', category:'休闲', desc:'洗脸、敷面膜、按摩、涂精华。花半小时好好对待自己的皮肤，看着镜子里水润的脸，心情也会变好。', tags:['护肤','放松','精致'], image:img('skincare,facial,spa,beauty'), gradient:'linear-gradient(135deg,#f8bbd0,#f48fb1,#e91e63)' },
-  { emoji:'🛋️', text:'窝在沙发上看一部纪录片', category:'休闲', desc:'找一部高分纪录片，关于自然、宇宙、历史或人物。既放松又能学到东西，比刷短视频充实多了。', tags:['纪录片','学习','安静'], image:img('documentary,cozy,sofa,watching'), gradient:'linear-gradient(135deg,#1b5e20,#2e7d32,#388e3c)' },
-  { emoji:'🌿', text:'去花市逛一圈', category:'休闲', desc:'哪怕不买，光看那些绿意盎然的植物、五颜六色的花朵，心情就会变好。说不定还能带一盆新朋友回家。', tags:['植物','治愈','周末'], image:img('flower,market,plant,garden'), gradient:'linear-gradient(135deg,#2e7d32,#43a047,#66bb6a)' },
+  { emoji:'☕', text:'去喝一杯手冲咖啡', category:'休闲', desc:'推开咖啡店的门，闻着豆子研磨的香气看咖啡师慢慢注水。等待的几分钟本身就是一种享受。', tags:['慢生活','独处','品质'], image:photo('1501339847300-eea1ef5b6e5a'), gradient:'linear-gradient(135deg,#3e2723,#4e342e,#5d4037)' },
+  { emoji:'🍵', text:'泡一壶茶慢慢喝', category:'休闲', desc:'烧水、温杯、投茶、注水。一步一步不急不躁。茶香弥漫时时间也跟着慢了下来。', tags:['茶道','安静','传统'], image:photo('1571935113043-f3545b07fa38'), gradient:'linear-gradient(135deg,#33691e,#558b2f,#7cb342)' },
+  { emoji:'📖', text:'读半小时喜欢的书', category:'休闲', desc:'翻开那本在床头放了很久的书。半小时不长，但足够让你从日常的嘈杂里短暂抽身。', tags:['安静','成长','独处'], image:photo('1512821746557-9a28f348f0d8'), gradient:'linear-gradient(135deg,#1b1b2f,#2d2d44,#43436a)' },
+  { emoji:'🛁', text:'泡一个热水澡放松', category:'休闲', desc:'点上香薰放好热水沉进浴缸。让热水带走一天疲惫，这一刻只属于你自己。', tags:['放松','自我','犒劳'], image:photo('1540555700478-4be289fbec6c'), gradient:'linear-gradient(135deg,#00695c,#00897b,#26a69a)' },
+  { emoji:'🧘', text:'闭上眼睛冥想五分钟', category:'休闲', desc:'找个安静地方坐下，闭眼只关注呼吸。五分钟不长但足够让你从混乱中回到当下。', tags:['冥想','平静','正念'], image:photo('1506126613408-1b45d384f8b7'), gradient:'linear-gradient(135deg,#1a237e,#283593,#3949ab)' },
+  { emoji:'🌃', text:'去天台看城市夜景', category:'休闲', desc:'夜幕降临万家灯火。站在高处看城市脉络吹晚风——夜晚的城市有它独特的温柔。', tags:['夜景','浪漫','独处'], image:photo('1517245386804-066e20bb20'), gradient:'linear-gradient(135deg,#263238,#37474f,#455a64)' },
+  { emoji:'🕯️', text:'点上香薰放空一会儿', category:'休闲', desc:'关掉手机点亮蜡烛让喜欢的香味充满房间。什么都不做就这样待着——这是最高级的休息。', tags:['香薰','放空','仪式感'], image:photo('1602523961524-2b9e5f5b1e8f'), gradient:'linear-gradient(135deg,#4a148c,#6a1b9a,#7b1fa2)' },
+  { emoji:'🧖', text:'做一次面部护理', category:'休闲', desc:'洗脸、敷面膜、按摩、涂精华。花半小时好好对待自己的皮肤，看着镜子里水润的脸心情也变好。', tags:['护肤','放松','精致'], image:photo('1570194065650-d99fb4ee8e11'), gradient:'linear-gradient(135deg,#f8bbd0,#f48fb1,#e91e63)' },
+  { emoji:'🛋️', text:'窝在沙发上看一部纪录片', category:'休闲', desc:'找一部高分纪录片，关于自然宇宙历史或人物。既放松又能学到东西，比刷短视频充实多了。', tags:['纪录片','学习','安静'], image:photo('1482775919005-74e30372ae15'), gradient:'linear-gradient(135deg,#1b5e20,#2e7d32,#388e3c)' },
+  { emoji:'🌿', text:'去花市逛一圈', category:'休闲', desc:'哪怕不买光看绿意盎然的植物五颜六色的花朵心情就会变好。说不定还能带一盆新朋友回家。', tags:['植物','治愈','周末'], image:photo('1490750967868-88aa4c0a5ded'), gradient:'linear-gradient(135deg,#2e7d32,#43a047,#66bb6a)' },
 
   // —— 社交 (8) ——
-  { emoji:'📞', text:'给一个老朋友打个电话', category:'社交', desc:'别只发微信。拨一个电话过去，听听声音，聊聊最近。真正的朋友，一通电话就能拉回从前。', tags:['友情','温暖','连接'], image:img('phonecall,friend,talking,connection'), gradient:'linear-gradient(135deg,#0d47a1,#1565c0,#1976d2)' },
-  { emoji:'💌', text:'给想念的人写一张明信片', category:'社交', desc:'挑一张好看的明信片，写上几句真心话，贴上邮票投进邮筒。等待对方收到时的惊喜表情。', tags:['写信','温暖','仪式感'], image:img('postcard,letter,handwritten,mail'), gradient:'linear-gradient(135deg,#e65100,#ef6c00,#f57c00)' },
-  { emoji:'👨‍👩‍👧', text:'和家人视频通话', category:'社交', desc:'拨一个视频给爸妈，让他们看看你最近的样子。聊聊家长里短，听听他们的唠叨。亲情是最暖的充电站。', tags:['家人','温暖','日常'], image:img('family,videocall,parents,home'), gradient:'linear-gradient(135deg,#4a148c,#6a1b9a,#8e24aa)' },
-  { emoji:'🤝', text:'约一个很久没见的朋友吃饭', category:'社交', desc:'翻翻通讯录，找一个三个月以上没见的朋友。约顿饭，聊聊彼此的变化——好的友情不需要频繁维护，但需要偶尔见面。', tags:['朋友','聚会','重逢'], image:img('friends,dinner,reunion,restaurant'), gradient:'linear-gradient(135deg,#e65100,#f57c00,#ff9800)' },
-  { emoji:'🐶', text:'去猫咖或狗咖撸宠物', category:'社交', desc:'如果不能自己养，就去宠物咖啡馆坐坐。毛茸茸的触感和呼噜声，能瞬间治愈所有不开心。', tags:['宠物','治愈','可爱'], image:img('cat,dog,pet,cafe,cute'), gradient:'linear-gradient(135deg,#ff8f00,#ffa000,#ffb300)' },
-  { emoji:'🎉', text:'策划一场小型聚会', category:'社交', desc:'叫上几个亲近的人，定一个主题（火锅趴/电影夜/桌游局），你来当东道主。用心准备的聚会最有温度。', tags:['聚会','策划','温暖'], image:img('party,gathering,friends,celebration'), gradient:'linear-gradient(135deg,#c62828,#d32f2f,#e53935)' },
-  { emoji:'💝', text:'做一件随机的好事', category:'社交', desc:'帮陌生人扶一下门、给外卖小哥一瓶水、在便利店帮后面的人买单。小小的善意，能让你和对方都开心一整天。', tags:['善意','温暖','随机'], image:img('kindness,helping,giving,smile'), gradient:'linear-gradient(135deg,#e91e63,#f06292,#f48fb1)' },
-  { emoji:'📱', text:'整理社交媒体关注列表', category:'社交', desc:'取关那些让你焦虑的账号，留下真正让你开心、有收获的内容。你的信息流，应该是一个让你变好的地方。', tags:['整理','数字','清爽'], image:img('socialmedia,clean,digital,organize'), gradient:'linear-gradient(135deg,#1565c0,#1976d2,#1e88e5)' },
+  { emoji:'📞', text:'给一个老朋友打个电话', category:'社交', desc:'别只发微信。拨个电话听听声音聊聊最近。真正的朋友一通电话就能拉回从前。', tags:['友情','温暖','连接'], image:photo('1587825140686-5e0462b1a34c'), gradient:'linear-gradient(135deg,#0d47a1,#1565c0,#1976d2)' },
+  { emoji:'💌', text:'给想念的人写一张明信片', category:'社交', desc:'挑一张好看的明信片写上几句真心话贴上邮票投进邮筒。等待对方收到时的惊喜表情。', tags:['写信','温暖','仪式感'], image:photo('1471107326136-7a6e6c5a6e7e'), gradient:'linear-gradient(135deg,#e65100,#ef6c00,#f57c00)' },
+  { emoji:'👨‍👩‍👧', text:'和家人视频通话', category:'社交', desc:'拨一个视频给爸妈让他们看看你最近的样子聊聊家长里短听听唠叨。亲情是最暖的充电站。', tags:['家人','温暖','日常'], image:photo('1511895426328-dc8714191300'), gradient:'linear-gradient(135deg,#4a148c,#6a1b9a,#8e24aa)' },
+  { emoji:'🤝', text:'约一个很久没见的朋友吃饭', category:'社交', desc:'翻翻通讯录找一个三个月以上没见的朋友约顿饭聊聊彼此变化——好友情不需要频繁维护但需要偶尔见面。', tags:['朋友','聚会','重逢'], image:photo('1529156069898-49953e39b3ac'), gradient:'linear-gradient(135deg,#e65100,#f57c00,#ff9800)' },
+  { emoji:'🐶', text:'去猫咖或狗咖撸宠物', category:'社交', desc:'如果不能自己养就去宠物咖啡馆坐坐。毛茸茸的触感和呼噜声能瞬间治愈所有不开心。', tags:['宠物','治愈','可爱'], image:photo('1514888286976-7e0e3d5b8e3d'), gradient:'linear-gradient(135deg,#ff8f00,#ffa000,#ffb300)' },
+  { emoji:'🎉', text:'策划一场小型聚会', category:'社交', desc:'叫上几个亲近的人定主题（火锅趴电影夜桌游局）你来当东道主。用心准备的聚会最有温度。', tags:['聚会','策划','温暖'], image:photo('1530103866776-c4415f08e0b6'), gradient:'linear-gradient(135deg,#c62828,#d32f2f,#e53935)' },
+  { emoji:'💝', text:'做一件随机的好事', category:'社交', desc:'帮陌生人扶门、给外卖小哥一瓶水、在便利店帮后面的人买单。小小善意能让你和对方都开心一整天。', tags:['善意','温暖','随机'], image:photo('1532629345422-eb5a0e5b0a5e'), gradient:'linear-gradient(135deg,#e91e63,#f06292,#f48fb1)' },
+  { emoji:'📱', text:'整理社交媒体关注列表', category:'社交', desc:'取关让你焦虑的账号留下真正让你开心有收获的内容。你的信息流应该是一个让你变好的地方。', tags:['整理','数字','清爽'], image:photo('1611162617213-7d7a39e7f0c5'), gradient:'linear-gradient(135deg,#1565c0,#1976d2,#1e88e5)' },
 
   // —— 自我成长 (8) ——
-  { emoji:'✍️', text:'写下今天的三件小事', category:'成长', desc:'哪怕只是"阳光很好"、"有人让座"、"午饭特别好吃"。写下它们，回头翻看都是宝藏。', tags:['感恩','日记','觉察'], image:img('journal,gratitude,writing,notebook'), gradient:'linear-gradient(135deg,#37474f,#455a64,#546e7a)' },
-  { emoji:'📝', text:'给未来的自己写封信', category:'成长', desc:'写给一年后的自己。你现在在烦恼什么？期待什么？等一年后再打开，你会感谢今天写下的每一个字。', tags:['反思','未来','成长'], image:img('letter,future,writing,self'), gradient:'linear-gradient(135deg,#37474f,#546e7a,#607d8b)' },
-  { emoji:'🎯', text:'设定下个月的三个目标', category:'成长', desc:'不用宏大，具体就好。"每天走8000步"、"读完一本书"、"学会做一道菜"。写下来，然后一个一个打勾。', tags:['目标','规划','行动'], image:img('goal,plan,target,bulletjournal'), gradient:'linear-gradient(135deg,#00695c,#00897b,#26a69a)' },
-  { emoji:'🧹', text:'整理一个抽屉或角落', category:'成长', desc:'选一个堆满杂物的角落，花二十分钟收拾干净。丢掉不需要的，留下心动。环境清爽了，心也清爽了。', tags:['断舍离','清爽','行动'], image:img('organize,declutter,clean,minimal'), gradient:'linear-gradient(135deg,#eceff1,#cfd8dc,#b0bec5)' },
-  { emoji:'💪', text:'做十五分钟居家锻炼', category:'成长', desc:'铺开瑜伽垫，做几个俯卧撑、深蹲、平板支撑。十五分钟不长，但坚持下来，你会感谢流汗的自己。', tags:['运动','自律','健康'], image:img('workout,exercise,home,fitness'), gradient:'linear-gradient(135deg,#b71c1c,#d32f2f,#f44336)' },
-  { emoji:'🗣️', text:'学习一句有深意的话', category:'成长', desc:'翻翻名人名言或古诗词，找一句今天触动你的话。抄下来贴在显眼处，让它成为今天的注脚。', tags:['学习','名言','思考'], image:img('quote,wisdom,book,reading'), gradient:'linear-gradient(135deg,#4a148c,#7b1fa2,#9c27b0)' },
-  { emoji:'🌍', text:'学五个外语单词', category:'成长', desc:'打开背词App，学五个新单词。不多，但一年就是1825个。微小的积累，时间会给你惊喜。', tags:['学习','语言','坚持'], image:img('language,learning,study,words'), gradient:'linear-gradient(135deg,#0d47a1,#1565c0,#1976d2)' },
-  { emoji:'💰', text:'整理一周的开销账目', category:'成长', desc:'打开记账App，看看钱都花去哪了。不用苛刻自己，只是保持觉察。掌控财务，就是掌控生活的一部分。', tags:['理财','规划','觉察'], image:img('budget,finance,money,planning'), gradient:'linear-gradient(135deg,#1b5e20,#2e7d32,#43a047)' },
+  { emoji:'✍️', text:'写下今天的三件小事', category:'成长', desc:'哪怕只是"阳光很好""有人让座""午饭特别好吃"。写下它们，回头翻看都是宝藏。', tags:['感恩','日记','觉察'], image:photo('1517842645767-c639042777db'), gradient:'linear-gradient(135deg,#37474f,#455a64,#546e7a)' },
+  { emoji:'📝', text:'给未来的自己写封信', category:'成长', desc:'写给一年后的自己。你现在在烦恼什么期待什么？一年后再打开你会感谢今天写下的每个字。', tags:['反思','未来','成长'], image:photo('1531844252814-42d74d2fb74f'), gradient:'linear-gradient(135deg,#37474f,#546e7a,#607d8b)' },
+  { emoji:'🎯', text:'设定下个月的三个目标', category:'成长', desc:'不用宏大具体就好。"每天走8000步""读完一本书""学会做一道菜"。写下来然后一个一个打勾。', tags:['目标','规划','行动'], image:photo('1484480974880-7191a8e3ac49'), gradient:'linear-gradient(135deg,#00695c,#00897b,#26a69a)' },
+  { emoji:'🧹', text:'整理一个抽屉或角落', category:'成长', desc:'选一个堆满杂物的角落花二十分钟收拾干净。丢掉不需要的留下心动。环境清爽心也清爽。', tags:['断舍离','清爽','行动'], image:photo('1527515637466-ae08c8c5f6e5'), gradient:'linear-gradient(135deg,#eceff1,#cfd8dc,#b0bec5)' },
+  { emoji:'💪', text:'做十五分钟居家锻炼', category:'成长', desc:'铺开瑜伽垫做几个俯卧撑深蹲平板支撑。十五分钟不长但坚持下来你会感谢流汗的自己。', tags:['运动','自律','健康'], image:photo('1517836357463-d25dfeac3438'), gradient:'linear-gradient(135deg,#b71c1c,#d32f2f,#f44336)' },
+  { emoji:'🗣️', text:'学习一句有深意的话', category:'成长', desc:'翻翻名人名言或古诗词找一句今天触动你的话。抄下来贴在显眼处让它成为今天的注脚。', tags:['学习','名言','思考'], image:photo('1491841550275-ad785c7c0b59'), gradient:'linear-gradient(135deg,#4a148c,#7b1fa2,#9c27b0)' },
+  { emoji:'🌍', text:'学五个外语单词', category:'成长', desc:'打开背词App学五个新单词。不多但一年就是1825个。微小的积累时间会给你惊喜。', tags:['学习','语言','坚持'], image:photo('1456513080510-7bf3a84b82f8'), gradient:'linear-gradient(135deg,#0d47a1,#1565c0,#1976d2)' },
+  { emoji:'💰', text:'整理一周的开销账目', category:'成长', desc:'打开记账App看看钱都花去哪了。不用苛刻自己只是保持觉察。掌控财务就是掌控生活的一部分。', tags:['理财','规划','觉察'], image:photo('1554226655-bc1cd8c15520'), gradient:'linear-gradient(135deg,#1b5e20,#2e7d32,#43a047)' },
 ];
 
 // ============ BUILD BACKGROUND GRID ============
@@ -671,11 +468,9 @@ const tasks = [
   const shuffled = [...tasks].sort(() => Math.random() - 0.5);
   const cols = Array.from({ length: COLUMNS }, () => []);
   shuffled.forEach((t, i) => cols[i % COLUMNS].push(t));
-
   cols.forEach(colTasks => {
     const col = document.createElement('div');
     col.className = 'bg-col';
-    // Duplicate for seamless infinite scroll
     [...colTasks, ...colTasks].forEach(t => {
       const card = document.createElement('div');
       card.className = 'bg-card';
@@ -686,107 +481,132 @@ const tasks = [
   });
 })();
 
-// ============ HISTORY MANAGEMENT ============
+// ============ HISTORY ============
 const historyBar = document.getElementById('historyBar');
 const historyList = document.getElementById('historyList');
 const historyCount = document.getElementById('historyCount');
 const historyEmpty = document.getElementById('historyEmpty');
 const siteFooter = document.getElementById('siteFooter');
-const rollHistory = []; // { task, index }
+let rollHistory = [];
 
 function addToHistory(task) {
   const idx = rollHistory.length + 1;
   rollHistory.push({ task, idx });
-
-  // Show bar
   historyBar.classList.add('visible');
   siteFooter.style.opacity = '0';
-
-  // Remove empty state
   if (historyEmpty) historyEmpty.remove();
-
-  // Update count
   historyCount.textContent = idx;
-
-  // Create chip
   const chip = document.createElement('span');
   chip.className = 'history-chip';
   chip.innerHTML = `<span class="chip-emoji">${task.emoji}</span>${task.text}<span class="chip-idx">#${idx}</span>`;
-  chip.title = `点击重新查看`;
+  chip.title = '点击重新查看';
   chip.addEventListener('click', () => showDetail(task));
-
   historyList.appendChild(chip);
-
-  // Auto-scroll to latest
-  setTimeout(() => {
-    historyList.scrollTo({ left: historyList.scrollWidth, behavior: 'smooth' });
-  }, 100);
+  setTimeout(() => historyList.scrollTo({ left: historyList.scrollWidth, behavior: 'smooth' }), 100);
 }
 
-// ============ DETAIL PANEL LOGIC ============
-const overlay = document.getElementById('detailOverlay');
-const btnMain = document.getElementById('btnMain');
-const btnClose = document.getElementById('btnClose');
-const btnBack = document.getElementById('btnBack');
-const btnReroll = document.getElementById('btnReroll');
-const detailImg = document.getElementById('detailImg');
+// ============ DETAIL PANEL ============
+const overlay    = document.getElementById('detailOverlay');
+const btnMain    = document.getElementById('btnMain');
+const btnClose   = document.getElementById('btnClose');
+const btnBack    = document.getElementById('btnBack');
+const btnReroll  = document.getElementById('btnReroll');
+const detailImg  = document.getElementById('detailImg');
 const detailGradient = document.getElementById('detailGradient');
-const detailBadge = document.getElementById('detailBadge');
-const detailEmoji = document.getElementById('detailEmoji');
-const detailTitle = document.getElementById('detailTitle');
-const detailDesc = document.getElementById('detailDesc');
-const detailTags = document.getElementById('detailTags');
+const detailArt  = document.getElementById('detailArt');
+const detailArtEmoji = document.getElementById('detailArtEmoji');
+const detailBlob1 = document.getElementById('detailBlob1');
+const detailBlob2 = document.getElementById('detailBlob2');
+const detailShimmer = document.getElementById('detailShimmer');
+const detailBadge   = document.getElementById('detailBadge');
+const detailEmoji   = document.getElementById('detailEmoji');
+const detailTitle   = document.getElementById('detailTitle');
+const detailDesc    = document.getElementById('detailDesc');
+const detailTags    = document.getElementById('detailTags');
 
 let lastIndex = -1;
-let currentTask = null;
+let imageTimer = null;
 
 function getRandomTask() {
   let idx;
-  do {
-    idx = Math.floor(Math.random() * tasks.length);
-  } while (idx === lastIndex && tasks.length > 1);
+  do { idx = Math.floor(Math.random() * tasks.length); }
+  while (idx === lastIndex && tasks.length > 1);
   lastIndex = idx;
   return tasks[idx];
 }
 
+// Extract dominant colors from gradient to style the CSS art blobs
+function extractColors(gradientStr) {
+  const matches = gradientStr.match(/#[0-9a-fA-F]{6}/g);
+  return matches || ['#e8784a', '#e8784a'];
+}
+
 function showDetail(task) {
-  currentTask = task;
+  // Clear any pending image timer
+  if (imageTimer) clearTimeout(imageTimer);
 
-  // Image & gradient
-  detailGradient.style.background = task.gradient;
-  detailGradient.style.opacity = '0.6';
+  // Reset image layer
   detailImg.classList.remove('loaded');
-  detailImg.src = task.image;
-  detailImg.onload = () => {
-    detailImg.classList.add('loaded');
-    detailGradient.style.opacity = '0.15';
+  detailImg.src = '';
+
+  // 1. INSTANT CSS ART — renders immediately, zero network dependency
+  const colors = extractColors(task.gradient);
+  detailGradient.style.background = task.gradient;
+  detailGradient.style.opacity = '1';
+
+  // Configure decorative blobs
+  detailBlob1.style.cssText = `
+    width:120px; height:120px; top:10%; left:5%; opacity:0.35;
+    background:${colors[0] || colors[1]};
+  `;
+  detailBlob2.style.cssText = `
+    width:90px; height:90px; bottom:15%; right:8%; opacity:0.25;
+    background:${colors[2] || colors[1]};
+  `;
+
+  // Set emoji
+  detailArtEmoji.textContent = task.emoji;
+  detailArt.classList.remove('dimmed');
+  detailShimmer.style.display = 'block';
+
+  // 2. LOAD REAL IMAGE ASYNC — fades in on success
+  const img = new Image();
+  img.onload = () => {
+    detailImg.src = task.image;
+    // Tiny delay to ensure src is set before class
+    requestAnimationFrame(() => {
+      detailImg.classList.add('loaded');
+      detailArt.classList.add('dimmed');
+      detailShimmer.style.display = 'none';
+      detailGradient.style.opacity = '0.4';
+    });
   };
-  detailImg.onerror = () => {
-    // Retry with slightly different params
-    const retryUrl = task.image.replace('800x500', '800x500');
-    if (detailImg.src !== retryUrl + '&r=1') {
-      detailImg.src = retryUrl + '&r=1';
-    }
-    // Keep gradient as fallback
-    detailGradient.style.opacity = '0.6';
+  img.onerror = () => {
+    // Image failed — CSS art stays prominent, just hide shimmer
+    detailShimmer.style.display = 'none';
   };
 
-  // Text
+  // Start loading with a short delay so the CSS art renders first
+  imageTimer = setTimeout(() => { img.src = task.image; }, 80);
+
+  // Text content
   detailBadge.textContent = task.category;
   detailEmoji.textContent = task.emoji;
   detailTitle.textContent = task.text;
   detailDesc.textContent = task.desc;
   detailTags.innerHTML = task.tags.map(t => `<span class="detail-tag">#${t}</span>`).join('');
 
-  // Show
   overlay.classList.add('active');
   document.body.style.overflow = 'hidden';
 }
 
 function hideDetail() {
+  if (imageTimer) clearTimeout(imageTimer);
   overlay.classList.remove('active');
   document.body.style.overflow = '';
   detailImg.classList.remove('loaded');
+  detailImg.src = '';
+  detailArt.classList.remove('dimmed');
 }
 
 function rollNew() {
@@ -804,11 +624,9 @@ btnMain.addEventListener('click', () => {
   addToHistory(task);
   showDetail(task);
 });
-
 btnClose.addEventListener('click', hideDetail);
 btnBack.addEventListener('click', hideDetail);
 btnReroll.addEventListener('click', rollNew);
-
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && overlay.classList.contains('active')) hideDetail();
 });
@@ -816,16 +634,18 @@ overlay.addEventListener('click', (e) => {
   if (e.target === overlay) hideDetail();
 });
 
-// ============ IMAGE PRELOAD ============
+// ============ BACKGROUND IMAGE PRELOAD (low priority) ============
+// Preload the first 12 images so common rolls hit a warm cache
 setTimeout(() => {
-  tasks.slice(0, 8).forEach(t => {
+  tasks.slice(0, 12).forEach(t => {
     const link = document.createElement('link');
     link.rel = 'preload';
     link.as = 'image';
     link.href = t.image;
+    link.fetchpriority = 'low';
     document.head.appendChild(link);
   });
-}, 2000);
+}, 3000);
 </script>
 </body>
 </html>
