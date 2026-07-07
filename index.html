@@ -5,16 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>做什么？</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap');
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --bg: #faf8f5;
-    --text: #2c2c2c;
-    --accent: #e45c3a;
-    --card-bg: #ffffff;
-    --shadow: 0 2px 20px rgba(0,0,0,0.06);
+    --bg: #0f0f0f;
+    --surface: #1a1a1a;
+    --text: #e8e4df;
+    --text-dim: #8a857f;
+    --accent: #e8784a;
+    --accent-glow: rgba(232,120,74,0.3);
+    --card-radius: 16px;
   }
 
   body {
@@ -22,289 +24,810 @@
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ============ SCROLLING GRID BACKGROUND ============ */
+  .bg-grid {
+    position: fixed;
+    inset: -50%;
+    z-index: 0;
+    display: flex;
+    gap: 14px;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+  .bg-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .bg-col:nth-child(odd) { animation: scrollDown 80s linear infinite; }
+  .bg-col:nth-child(even) { animation: scrollUp 95s linear infinite; }
+  .bg-col:nth-child(3) { animation-duration: 70s; }
+  .bg-col:nth-child(4) { animation-duration: 110s; }
+  .bg-col:nth-child(5) { animation-duration: 85s; }
+  .bg-col:nth-child(6) { animation-duration: 100s; }
+
+  @keyframes scrollDown {
+    0% { transform: translateY(-50%); }
+    100% { transform: translateY(0%); }
+  }
+  @keyframes scrollUp {
+    0% { transform: translateY(0%); }
+    100% { transform: translateY(-50%); }
+  }
+
+  .bg-card {
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 18px 14px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.04);
+    transition: all 0.6s ease;
+  }
+  .bg-card .mini-emoji { font-size: 1.6rem; display: block; margin-bottom: 6px; }
+  .bg-card .mini-text { font-size: 0.7rem; color: var(--text-dim); letter-spacing: 0.04em; line-height: 1.4; }
+
+  /* ============ OVERLAY ============ */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 30%, rgba(15,15,15,0.4) 0%, rgba(15,15,15,0.92) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* ============ MAIN BUTTON AREA ============ */
+  .hero {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .hero > * { pointer-events: auto; }
+
+  .label-row {
     display: flex;
     align-items: center;
-    justify-content: center;
-    overflow: hidden;
+    gap: 16px;
+    margin-bottom: 2rem;
+  }
+  .label-line {
+    width: 32px;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+  }
+  .label-text {
+    font-size: 0.78rem;
+    letter-spacing: 0.3em;
+    color: var(--text-dim);
+    font-weight: 300;
   }
 
-  /* Subtle background texture */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse at 20% 20%, rgba(228,92,58,0.04) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 70%, rgba(228,92,58,0.03) 0%, transparent 60%),
-      radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.02) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* Floating particles */
-  .particles {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-  }
-  .particle {
-    position: absolute;
+  .btn-main {
+    width: 170px;
+    height: 170px;
     border-radius: 50%;
-    background: var(--accent);
-    opacity: 0;
-    animation: floatUp 6s ease-in infinite;
-  }
-  @keyframes floatUp {
-    0%   { opacity: 0; transform: translateY(0) scale(0); }
-    10%  { opacity: 0.12; }
-    80%  { opacity: 0.04; }
-    100% { opacity: 0; transform: translateY(-100vh) scale(1.2); }
-  }
-
-  /* Main container */
-  .main {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    padding: 2rem;
-  }
-
-  /* Quiet label */
-  .label {
-    font-size: 0.85rem;
-    font-weight: 400;
-    letter-spacing: 0.25em;
-    color: #999;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-  }
-
-  /* The button */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    border: 2px solid #e0dcd7;
-    background: var(--card-bg);
+    border: 1.5px solid rgba(255,255,255,0.15);
+    background: rgba(26,26,26,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     color: var(--text);
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     font-weight: 500;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     cursor: pointer;
-    transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1.2);
-    box-shadow: var(--shadow);
+    transition: all 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+    box-shadow:
+      0 0 0 0 var(--accent-glow),
+      0 8px 32px rgba(0,0,0,0.5);
     position: relative;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
+    animation: breathe 3.5s ease-in-out infinite;
   }
-  .btn:hover {
+  @keyframes breathe {
+    0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow), 0 8px 32px rgba(0,0,0,0.5); }
+    50% { box-shadow: 0 0 0 18px transparent, 0 8px 40px rgba(0,0,0,0.6); }
+  }
+  .btn-main:hover {
     border-color: var(--accent);
     color: var(--accent);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(228,92,58,0.14);
+    transform: translateY(-3px);
+    box-shadow:
+      0 0 0 12px rgba(232,120,74,0.08),
+      0 16px 48px rgba(0,0,0,0.6);
+    animation: none;
   }
-  .btn:active {
-    transform: scale(0.94);
-    transition: all 0.15s ease;
+  .btn-main:active {
+    transform: scale(0.93);
+    transition: all 0.12s ease;
   }
 
-  /* Ripple ring on click */
-  .btn::after {
-    content: '';
+  .btn-ring {
     position: absolute;
-    inset: -8px;
+    inset: -10px;
     border-radius: 50%;
-    border: 1.5px solid var(--accent);
-    opacity: 0;
-    transform: scale(0.85);
-    transition: all 0.5s ease;
+    border: 1px solid rgba(255,255,255,0.06);
+    animation: ringSpin 20s linear infinite;
   }
-  .btn.pulse::after {
-    opacity: 0;
-    transform: scale(1.15);
-    transition: all 0.55s ease-out;
-  }
-  .btn.pulse {
-    animation: pulseRing 0.55s ease-out;
-  }
-  @keyframes pulseRing {
-    0%   { box-shadow: 0 0 0 0 rgba(228,92,58,0.3); }
-    100% { box-shadow: 0 0 0 40px rgba(228,92,58,0); }
+  @keyframes ringSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
 
-  /* Result card */
-  .result-area {
-    margin-top: 2.8rem;
-    min-height: 80px;
+  .hint-row {
+    margin-top: 2.4rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hint-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: dotPulse 1.8s ease-in-out infinite;
+  }
+  .hint-dot:nth-child(2) { animation-delay: 0.2s; }
+  .hint-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes dotPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+  .hint-text {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+    margin-left: 6px;
+  }
+
+  /* ============ DETAIL PANEL ============ */
+  .detail-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 2rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.45s ease;
   }
-  .result-card {
-    display: inline-block;
-    background: var(--card-bg);
+  .detail-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .detail-card {
+    background: var(--surface);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 520px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 32px 80px rgba(0,0,0,0.7);
+    transform: translateY(40px) scale(0.92);
+    transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .detail-overlay.active .detail-card {
+    transform: translateY(0) scale(1);
+  }
+
+  .detail-img-wrap {
+    width: 100%;
+    height: 260px;
+    position: relative;
+    overflow: hidden;
+    background: #1a1a1a;
+  }
+  .detail-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s ease, opacity 0.5s ease;
+    opacity: 0;
+  }
+  .detail-img.loaded {
+    opacity: 1;
+  }
+  .detail-overlay.active .detail-img.loaded {
+    transform: scale(1.04);
+  }
+  .detail-img-gradient {
+    position: absolute;
+    inset: 0;
+    opacity: 0.6;
+    transition: opacity 0.5s ease;
+  }
+  .detail-img.loaded + .detail-img-gradient { opacity: 0.15; }
+
+  .detail-img-badge {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #fff;
+    font-size: 0.72rem;
+    padding: 6px 14px;
     border-radius: 20px;
-    padding: 1.4rem 2.4rem;
-    box-shadow: var(--shadow);
-    animation: cardIn 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
-  }
-  @keyframes cardIn {
-    0%   { opacity: 0; transform: translateY(18px) scale(0.92); }
-    100% { opacity: 1; transform: translateY(0) scale(1); }
+    letter-spacing: 0.06em;
+    font-weight: 400;
   }
 
-  .result-emoji {
-    font-size: 2.4rem;
+  .detail-body {
+    padding: 2rem 2rem 2.2rem;
+    text-align: center;
+  }
+  .detail-emoji {
+    font-size: 3.2rem;
     display: block;
+    margin-top: -3rem;
+    margin-bottom: 0.6rem;
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+  }
+  .detail-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.5rem;
+    color: #fff;
+  }
+  .detail-desc {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    line-height: 1.7;
     margin-bottom: 0.4rem;
-    animation: emojiBounce 0.5s ease;
   }
-  @keyframes emojiBounce {
-    0%   { transform: scale(0.3); opacity: 0; }
-    60%  { transform: scale(1.15); }
-    100% { transform: scale(1); opacity: 1; }
+  .detail-tags {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.8rem;
   }
-  .result-text {
-    font-size: 1.25rem;
-    font-weight: 500;
-    color: var(--text);
-    letter-spacing: 0.03em;
-  }
-
-  /* Subtle hint */
-  .hint {
-    margin-top: 1.2rem;
-    font-size: 0.8rem;
-    color: #bbb;
+  .detail-tag {
+    font-size: 0.7rem;
+    padding: 5px 14px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--text-dim);
     letter-spacing: 0.04em;
   }
 
-  /* Footer */
-  .footer {
+  .detail-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-action {
+    padding: 12px 28px;
+    border-radius: 28px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+    font-family: inherit;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 6px 24px rgba(232,120,74,0.3);
+  }
+  .btn-primary:hover {
+    background: #e98860;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 32px rgba(232,120,74,0.4);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid rgba(255,255,255,0.12);
+  }
+  .btn-ghost:hover {
+    border-color: rgba(255,255,255,0.3);
+    color: #fff;
+  }
+  .btn-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+    z-index: 5;
+  }
+  .btn-close:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.25);
+  }
+
+  /* ============ FOOTER ============ */
+  .site-footer {
     position: fixed;
-    bottom: 1.8rem;
+    bottom: 2rem;
     left: 0;
     right: 0;
     text-align: center;
-    font-size: 0.72rem;
-    color: #ccc;
-    letter-spacing: 0.05em;
-    z-index: 1;
+    z-index: 10;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.18);
+    letter-spacing: 0.08em;
+    pointer-events: none;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 600px) {
+    .bg-grid { gap: 10px; }
+    .bg-col { gap: 10px; }
+    .bg-card { padding: 12px 8px; border-radius: 10px; }
+    .bg-card .mini-emoji { font-size: 1.2rem; }
+    .bg-card .mini-text { font-size: 0.62rem; }
+    .btn-main { width: 140px; height: 140px; font-size: 1.05rem; }
+    .detail-card { max-width: 100%; border-radius: 18px; }
+    .detail-img-wrap { height: 200px; }
+    .detail-body { padding: 1.5rem 1.2rem 1.8rem; }
+    .detail-title { font-size: 1.25rem; }
   }
 </style>
 </head>
 <body>
 
-<!-- Floating particles -->
-<div class="particles" id="particles"></div>
+<!-- ============ SCROLLING GRID BACKGROUND ============ -->
+<div class="bg-grid" id="bgGrid"></div>
 
-<!-- Main -->
-<div class="main">
-  <p class="label">今天</p>
+<!-- ============ AMBIENT OVERLAY ============ -->
+<div class="overlay"></div>
 
-  <button class="btn" id="btn" title="点一下试试">做什么？</button>
+<!-- ============ MAIN HERO ============ -->
+<div class="hero">
+  <div class="label-row">
+    <span class="label-line"></span>
+    <span class="label-text">今 日</span>
+    <span class="label-line"></span>
+  </div>
 
-  <div class="result-area" id="resultArea"></div>
-  <p class="hint" id="hint">点一下，给生活一点随机</p>
+  <button class="btn-main" id="btnMain" title="点一下试试">
+    <span class="btn-ring"></span>
+    做什么？
+  </button>
+
+  <div class="hint-row">
+    <span class="hint-dot"></span>
+    <span class="hint-dot"></span>
+    <span class="hint-dot"></span>
+    <span class="hint-text">点一下，给生活一点随机</span>
+  </div>
 </div>
 
-<div class="footer">今日宜 · 随心而动</div>
+<div class="site-footer">今日宜 · 随心而动</div>
+
+<!-- ============ DETAIL OVERLAY ============ -->
+<div class="detail-overlay" id="detailOverlay">
+  <div class="detail-card" id="detailCard">
+    <div class="detail-img-wrap">
+      <button class="btn-close" id="btnClose" title="返回">✕</button>
+      <img class="detail-img" id="detailImg" alt="" loading="lazy" />
+      <div class="detail-img-gradient" id="detailGradient"></div>
+      <span class="detail-img-badge" id="detailBadge"></span>
+    </div>
+    <div class="detail-body">
+      <span class="detail-emoji" id="detailEmoji"></span>
+      <h2 class="detail-title" id="detailTitle"></h2>
+      <p class="detail-desc" id="detailDesc"></p>
+      <div class="detail-tags" id="detailTags"></div>
+      <div class="detail-actions">
+        <button class="btn-action btn-primary" id="btnReroll">🔄 再换一个</button>
+        <button class="btn-action btn-ghost" id="btnBack">← 返回</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
-  const tasks = [
-    { emoji: '🍜', text: '去吃一份麻辣烫' },
-    { emoji: '🎬', text: '去看一场电影' },
-    { emoji: '☕', text: '去喝一杯手冲咖啡' },
-    { emoji: '📖', text: '读半小时喜欢的书' },
-    { emoji: '🚶', text: '出门散步二十分钟' },
-    { emoji: '🎵', text: '听一张没听过的专辑' },
-    { emoji: '🍰', text: '给自己买一块蛋糕' },
-    { emoji: '✍️', text: '写下今天的三件小事' },
-    { emoji: '🌸', text: '去公园看看花草' },
-    { emoji: '🧹', text: '整理一个抽屉或角落' },
-    { emoji: '📞', text: '给一个老朋友打个电话' },
-    { emoji: '🍳', text: '做一道没做过的菜' },
-    { emoji: '🧘', text: '闭上眼睛冥想五分钟' },
-    { emoji: '🎨', text: '随手画一幅小画' },
-    { emoji: '🛁', text: '泡一个热水澡放松' },
-    { emoji: '🌃', text: '去天台看城市夜景' },
-    { emoji: '🍦', text: '吃一个冰淇淋' },
-    { emoji: '💐', text: '买一束花送给自己' },
-    { emoji: '🚲', text: '骑单车在城市闲逛' },
-    { emoji: '📷', text: '拍十张今天的照片' },
-    { emoji: '🎲', text: '玩一局桌游或卡牌' },
-    { emoji: '🍵', text: '泡一壶茶慢慢喝' },
-    { emoji: '🌿', text: '去花市逛一圈' },
-    { emoji: '🕯️', text: '点上香薰放空一会儿' },
-    { emoji: '🎤', text: '大声唱一首喜欢的歌' },
-    { emoji: '🍣', text: '去吃一顿日料' },
-    { emoji: '🏔️', text: '计划一次周末短途旅行' },
-    { emoji: '🧩', text: '拼一幅拼图' },
-    { emoji: '📝', text: '给未来的自己写封信' },
-    { emoji: '🌅', text: '明天早起看日出' },
-  ];
+// ============ TASK DATA ============
+const tasks = [
+  {
+    emoji: '🍜', text: '去吃一份麻辣烫',
+    category: '美食',
+    desc: '街角那家小店，热腾腾的红油汤底，一口下去整个人都暖了。生活嘛，偶尔也需要一点辣。',
+    tags: ['治愈', '一人食', '街头'],
+    image: 'https://images.unsplash.com/photo-1555126634-323283e090fa?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #c0392b, #e74c3c, #f39c12)'
+  },
+  {
+    emoji: '🎬', text: '去看一场电影',
+    category: '娱乐',
+    desc: '选一部想看很久的片子，捧着爆米花，在黑暗里沉浸两小时。银幕上的故事，是另一个世界在等你。',
+    tags: ['沉浸', '独处', '夜晚'],
+    image: 'https://images.unsplash.com/photo-1489596849921-66e4823d6c62?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #1a1a2e, #16213e, #0f3460)'
+  },
+  {
+    emoji: '☕', text: '去喝一杯手冲咖啡',
+    category: '生活',
+    desc: '推开咖啡店的门，闻着豆子研磨的香气，看咖啡师慢慢注水。等待的几分钟，本身就是一种享受。',
+    tags: ['慢生活', '独处', '品质'],
+    image: 'https://images.unsplash.com/photo-1501339847300-eea1ef5b6e5a?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #3e2723, #4e342e, #5d4037)'
+  },
+  {
+    emoji: '📖', text: '读半小时喜欢的书',
+    category: '充电',
+    desc: '翻开那本在床头放了很久的书。半小时不长，但足够让你从日常的嘈杂里短暂抽身。',
+    tags: ['安静', '成长', '独处'],
+    image: 'https://images.unsplash.com/photo-1512821746557-9a28f348f0d8?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #1b1b2f, #2d2d44, #43436a)'
+  },
+  {
+    emoji: '🚶', text: '出门散步二十分钟',
+    category: '健康',
+    desc: '不设目的地，只是走走。看看路边的树、巷口的猫、天上的云。你会发现附近还有很多没注意过的角落。',
+    tags: ['放松', '户外', '轻运动'],
+    image: 'https://images.unsplash.com/photo-1444491741275-374ac1f9d720?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #2e7d32, #388e3c, #4caf50)'
+  },
+  {
+    emoji: '🎵', text: '听一张没听过的专辑',
+    category: '灵感',
+    desc: '关掉算法推荐，找一张完全陌生的专辑从头听到尾。像拆盲盒一样，说不定就遇到了你的下一首循环。',
+    tags: ['探索', '音乐', '惊喜'],
+    image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #311b92, #4527a0, #5e35b1)'
+  },
+  {
+    emoji: '🍰', text: '给自己买一块蛋糕',
+    category: '治愈',
+    desc: '不需要什么特别的理由。路过甜品店，挑一块最顺眼的，配一杯茶慢慢吃。今天值得被甜一下。',
+    tags: ['甜蜜', '犒劳', '小确幸'],
+    image: 'https://images.unsplash.com/photo-1558301211-0d8c8ddee6ec?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #e91e63, #f06292, #f48fb1)'
+  },
+  {
+    emoji: '✍️', text: '写下今天的三件小事',
+    category: '记录',
+    desc: '哪怕只是"今天的阳光很好"、"公交上有人让座"、"午饭特别好吃"。写下它们，回头翻看都是宝藏。',
+    tags: ['感恩', '日记', '觉察'],
+    image: 'https://images.unsplash.com/photo-1455390582284-e195a5e3e649?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #37474f, #455a64, #546e7a)'
+  },
+  {
+    emoji: '🌸', text: '去公园看看花草',
+    category: '自然',
+    desc: '找一个长椅坐下，看风吹树叶，看小孩追逐，看阳光透过枝丫的光斑。自然从来不催你。',
+    tags: ['户外', '放松', '自然'],
+    image: 'https://images.unsplash.com/photo-1490750967868-88aa4c0a5ded?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #e65100, #f57c00, #ff9800)'
+  },
+  {
+    emoji: '🧹', text: '整理一个抽屉或角落',
+    category: '整理',
+    desc: '选一个堆满杂物的角落，花二十分钟收拾干净。丢掉不需要的，留下的都是心动。环境清爽了，心也清爽了。',
+    tags: ['断舍离', '清爽', '行动'],
+    image: 'https://images.unsplash.com/photo-1527515637466-ae08c8c5f6e5?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #eceff1, #cfd8dc, #b0bec5)'
+  },
+  {
+    emoji: '📞', text: '给一个老朋友打个电话',
+    category: '连接',
+    desc: '别只发微信。拨一个电话过去，听听对方的声音，聊聊最近。真正的朋友，一通电话就能拉回从前。',
+    tags: ['友情', '温暖', '连接'],
+    image: 'https://images.unsplash.com/photo-1587825140686-5e0462b1a34c?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #0d47a1, #1565c0, #1976d2)'
+  },
+  {
+    emoji: '🍳', text: '做一道没做过的菜',
+    category: '创造',
+    desc: '翻翻菜谱，挑一道感兴趣的。切菜、下锅、调味——整个过程就是一场小小的创作。好吃或翻车，都是故事。',
+    tags: ['烹饪', '挑战', '动手'],
+    image: 'https://images.unsplash.com/photo-1556909114-f6e7d4e1bd28?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #bf360c, #d84315, #e64a19)'
+  },
+  {
+    emoji: '🧘', text: '闭上眼睛冥想五分钟',
+    category: '身心',
+    desc: '找个安静的地方，闭上眼睛，只关注呼吸。五分钟不长，但足够让你从混乱中回到当下。',
+    tags: ['冥想', '平静', '正念'],
+    image: 'https://images.unsplash.com/photo-1506126613408-1b45d384f8b7?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #1a237e, #283593, #3949ab)'
+  },
+  {
+    emoji: '🎨', text: '随手画一幅小画',
+    category: '创作',
+    desc: '别管画得好不好。拿起手边的笔，画桌上的杯子、窗外的树、或者只是涂几块颜色。创作本身就很治愈。',
+    tags: ['艺术', '表达', '自由'],
+    image: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #4a148c, #6a1b9a, #8e24aa)'
+  },
+  {
+    emoji: '🛁', text: '泡一个热水澡放松',
+    category: '治愈',
+    desc: '点上香薰，放好热水，整个人沉进浴缸里。让热水带走一天的疲惫，这一刻只属于你自己。',
+    tags: ['放松', '自我', '犒劳'],
+    image: 'https://images.unsplash.com/photo-1540555700478-4be289fbec6c?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #00695c, #00897b, #26a69a)'
+  },
+  {
+    emoji: '🌃', text: '去天台看城市夜景',
+    category: '浪漫',
+    desc: '夜幕降临，万家灯火。站在高处看这个城市的脉络，吹着晚风，你会发现夜晚的城市有它独特的温柔。',
+    tags: ['夜景', '浪漫', '独处'],
+    image: 'https://images.unsplash.com/photo-1517245386804-066e20bb20?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #263238, #37474f, #455a64)'
+  },
+  {
+    emoji: '🍦', text: '吃一个冰淇淋',
+    category: '快乐',
+    desc: '选一个最喜欢的口味，慢慢地舔。感受冰凉在舌尖化开的瞬间。不管几岁，吃冰淇淋都是一件快乐的事。',
+    tags: ['甜食', '快乐', '简单'],
+    image: 'https://images.unsplash.com/photo-1501443762994-82d6a4d0f2a5?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #f8bbd0, #f48fb1, #ec407a)'
+  },
+  {
+    emoji: '💐', text: '买一束花送给自己',
+    category: '仪式感',
+    desc: '不需要等人送。路过花店挑一束喜欢的，回家插在瓶子里。看到花开的那一刻，整个房间都亮了起来。',
+    tags: ['花', '仪式感', '美好'],
+    image: 'https://images.unsplash.com/photo-1563241527-30a5f3a6498a?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #ad1457, #c62828, #d81b60)'
+  },
+  {
+    emoji: '🚲', text: '骑单车在城市闲逛',
+    category: '运动',
+    desc: '扫一辆共享单车，沿着不熟悉的路骑。风吹过耳边，街景在后退——你会看到这座城市不同的一面。',
+    tags: ['探索', '运动', '自由'],
+    image: 'https://images.unsplash.com/photo-1507035895480-2b3156c31f49?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #33691e, #558b2f, #689f38)'
+  },
+  {
+    emoji: '📷', text: '拍十张今天的照片',
+    category: '记录',
+    desc: '用镜头捕捉今天：早餐、路上的光影、窗台的植物、傍晚的天空。平凡的日子，拍下来就不平凡了。',
+    tags: ['摄影', '记录', '观察'],
+    image: 'https://images.unsplash.com/photo-1452587926199-19e2b192f4a7?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #212121, #424242, #616161)'
+  },
+  {
+    emoji: '🎲', text: '玩一局桌游或卡牌',
+    category: '社交',
+    desc: '约上朋友或家人，围着桌子开一盘。无论是激烈的策略对决还是轻松的聚会游戏，笑声才是最终赢家。',
+    tags: ['朋友', '游戏', '欢乐'],
+    image: 'https://images.unsplash.com/photo-1610890716177-6b1e6b4a94a2?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #3e2723, #5d4037, #795548)'
+  },
+  {
+    emoji: '🍵', text: '泡一壶茶慢慢喝',
+    category: '慢生活',
+    desc: '烧水、温杯、投茶、注水。一步一步，不急不躁。茶香弥漫的时候，时间也跟着慢了下来。',
+    tags: ['茶道', '安静', '传统'],
+    image: 'https://images.unsplash.com/photo-1571935113043-f3545b07fa38?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #33691e, #558b2f, #7cb342)'
+  },
+  {
+    emoji: '🌿', text: '去花市逛一圈',
+    category: '自然',
+    desc: '哪怕不买，光是看那些绿意盎然的植物、五颜六色的花朵，心情就会变好。说不定还能带一盆新朋友回家。',
+    tags: ['植物', '治愈', '周末'],
+    image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #2e7d32, #43a047, #66bb6a)'
+  },
+  {
+    emoji: '🕯️', text: '点上香薰放空一会儿',
+    category: '放松',
+    desc: '关掉手机，点亮蜡烛，让喜欢的香味充满房间。什么都不做，就这样安静地待着——这是最高级的休息。',
+    tags: ['香薰', '放空', '仪式感'],
+    image: 'https://images.unsplash.com/photo-1602523961524-2b9e5f5b1e8f?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #4a148c, #6a1b9a, #7b1fa2)'
+  },
+  {
+    emoji: '🎤', text: '大声唱一首喜欢的歌',
+    category: '释放',
+    desc: '关上房门，打开歌词，管它跑不跑调。大声唱出来的时候，所有的压力都跟着声音跑了出去。',
+    tags: ['音乐', '释放', '快乐'],
+    image: 'https://images.unsplash.com/photo-1516223725307-6f76b9182a7e?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #b71c1c, #d32f2f, #f44336)'
+  },
+  {
+    emoji: '🍣', text: '去吃一顿日料',
+    category: '美食',
+    desc: '坐在吧台前，看师傅捏寿司，蘸一点酱油一口吃下。新鲜的食材、精致的摆盘，每一口都是对味蕾的尊重。',
+    tags: ['日料', '精致', '享受'],
+    image: 'https://images.unsplash.com/photo-1553621044-4f6b0f9b9a7d?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #e65100, #ef6c00, #f57c00)'
+  },
+  {
+    emoji: '🏔️', text: '计划一次周末短途旅行',
+    category: '冒险',
+    desc: '打开地图，找一个两小时内能到的地方。不需要长假，周末就够了。期待本身，就是旅行最美好的部分。',
+    tags: ['旅行', '计划', '期待'],
+    image: 'https://images.unsplash.com/photo-1464822759023-7e4b1cd0e4e0?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #1b5e20, #2e7d32, #388e3c)'
+  },
+  {
+    emoji: '🧩', text: '拼一幅拼图',
+    category: '专注',
+    desc: '把几百片碎片倒出来，一块一块地找、一片一片地对。当最后一片嵌进去的时候，那种满足感无法替代。',
+    tags: ['专注', '耐心', '成就感'],
+    image: 'https://images.unsplash.com/photo-1612528446444-9c4a2b2d0b6e?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #0277bd, #0288d1, #039be5)'
+  },
+  {
+    emoji: '📝', text: '给未来的自己写封信',
+    category: '思考',
+    desc: '写给一年后的自己吧。你现在在烦恼什么？期待什么？等一年后再打开，你会感谢今天写下的每一个字。',
+    tags: ['反思', '未来', '成长'],
+    image: 'https://images.unsplash.com/photo-1471107326136-7a6e6c5a6e7e?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #37474f, #546e7a, #607d8b)'
+  },
+  {
+    emoji: '🌅', text: '明天早起看日出',
+    category: '自然',
+    desc: '设一个日出前的闹钟，去视野开阔的地方等待。看着天边从深蓝变成橙红，太阳跳出来的那一刻，一切都很值得。',
+    tags: ['自然', '早起', '震撼'],
+    image: 'https://images.unsplash.com/photo-1500380804539-4a1c53e0c9e5?w=800&h=500&fit=crop&q=80',
+    gradient: 'linear-gradient(135deg, #e65100, #f57c00, #ff9800)'
+  },
+];
 
-  const btn = document.getElementById('btn');
-  const resultArea = document.getElementById('resultArea');
-  const hint = document.getElementById('hint');
-  let lastIndex = -1;
+// ============ BUILD BACKGROUND GRID ============
+(function buildGrid() {
+  const grid = document.getElementById('bgGrid');
+  const COLUMNS = 6;
+  const CARDS_PER_COL = 10;
+  const allTasks = [...tasks, ...tasks].sort(() => Math.random() - 0.5); // shuffle
 
-  function getRandomTask() {
-    let idx;
-    do {
-      idx = Math.floor(Math.random() * tasks.length);
-    } while (idx === lastIndex && tasks.length > 1);
-    lastIndex = idx;
-    return tasks[idx];
-  }
+  const cols = Array.from({ length: COLUMNS }, () => []);
+  allTasks.forEach((t, i) => cols[i % COLUMNS].push(t));
 
-  function showTask() {
+  cols.forEach((colTasks) => {
+    const col = document.createElement('div');
+    col.className = 'bg-col';
+    // Duplicate for seamless scroll
+    const cards = [...colTasks.slice(0, CARDS_PER_COL), ...colTasks.slice(0, CARDS_PER_COL)];
+    cards.forEach(t => {
+      const card = document.createElement('div');
+      card.className = 'bg-card';
+      card.innerHTML = `<span class="mini-emoji">${t.emoji}</span><span class="mini-text">${t.text}</span>`;
+      col.appendChild(card);
+    });
+    grid.appendChild(col);
+  });
+})();
+
+// ============ DETAIL PANEL LOGIC ============
+const overlay = document.getElementById('detailOverlay');
+const btnMain = document.getElementById('btnMain');
+const btnClose = document.getElementById('btnClose');
+const btnBack = document.getElementById('btnBack');
+const btnReroll = document.getElementById('btnReroll');
+const detailImg = document.getElementById('detailImg');
+const detailGradient = document.getElementById('detailGradient');
+const detailBadge = document.getElementById('detailBadge');
+const detailEmoji = document.getElementById('detailEmoji');
+const detailTitle = document.getElementById('detailTitle');
+const detailDesc = document.getElementById('detailDesc');
+const detailTags = document.getElementById('detailTags');
+
+let lastIndex = -1;
+let currentTask = null;
+
+function getRandomTask() {
+  let idx;
+  do {
+    idx = Math.floor(Math.random() * tasks.length);
+  } while (idx === lastIndex && tasks.length > 1);
+  lastIndex = idx;
+  return tasks[idx];
+}
+
+function showDetail(task) {
+  currentTask = task;
+
+  // Set gradient fallback
+  detailGradient.style.background = task.gradient;
+  detailGradient.style.opacity = '0.6';
+
+  // Set image
+  detailImg.classList.remove('loaded');
+  detailImg.src = task.image;
+  detailImg.onload = () => {
+    detailImg.classList.add('loaded');
+    detailGradient.style.opacity = '0.15';
+  };
+  detailImg.onerror = () => {
+    // Keep gradient visible if image fails
+    detailGradient.style.opacity = '0.6';
+  };
+
+  // Set text
+  detailBadge.textContent = task.category;
+  detailEmoji.textContent = task.emoji;
+  detailTitle.textContent = task.text;
+  detailDesc.textContent = task.desc;
+  detailTags.innerHTML = task.tags.map(t => `<span class="detail-tag">#${t}</span>`).join('');
+
+  // Show
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function hideDetail() {
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+  detailImg.classList.remove('loaded');
+}
+
+function rollNew() {
+  // Brief hide animation, then show new
+  overlay.classList.remove('active');
+  setTimeout(() => {
     const task = getRandomTask();
+    showDetail(task);
+  }, 350);
+}
 
-    // Button feedback
-    btn.classList.add('pulse');
-    setTimeout(() => btn.classList.remove('pulse'), 550);
+btnMain.addEventListener('click', () => {
+  const task = getRandomTask();
+  showDetail(task);
+});
 
-    // Render result
-    resultArea.innerHTML = `
-      <div class="result-card">
-        <span class="result-emoji">${task.emoji}</span>
-        <span class="result-text">${task.text}</span>
-      </div>
-    `;
+btnClose.addEventListener('click', hideDetail);
+btnBack.addEventListener('click', hideDetail);
+btnReroll.addEventListener('click', rollNew);
 
-    // Fade hint after first click
-    if (hint.style.opacity !== '0') {
-      hint.style.transition = 'opacity 0.6s ease';
-      hint.style.opacity = '0';
-      setTimeout(() => { hint.textContent = '再点一下，换一个'; hint.style.opacity = '1'; }, 600);
-    }
+// Close on escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && overlay.classList.contains('active')) {
+    hideDetail();
   }
+});
 
-  btn.addEventListener('click', showTask);
+// Close on clicking backdrop
+overlay.addEventListener('click', (e) => {
+  if (e.target === overlay) hideDetail();
+});
 
-  // Generate floating particles
-  (function spawnParticles() {
-    const container = document.getElementById('particles');
-    const colors = ['#e45c3a', '#d4785c', '#e8916b', '#f0a88c', '#e8c4b8'];
-    for (let i = 0; i < 18; i++) {
-      const p = document.createElement('div');
-      p.className = 'particle';
-      const size = 4 + Math.random() * 10;
-      p.style.width = size + 'px';
-      p.style.height = size + 'px';
-      p.style.left = Math.random() * 100 + '%';
-      p.style.bottom = -(size + Math.random() * 40) + 'px';
-      p.style.background = colors[Math.floor(Math.random() * colors.length)];
-      p.style.animationDuration = (5 + Math.random() * 8) + 's';
-      p.style.animationDelay = Math.random() * 10 + 's';
-      container.appendChild(p);
-    }
-  })();
+// ============ INITIAL IMAGE PRELOAD ============
+// Preload a few images in the background for faster first display
+setTimeout(() => {
+  tasks.slice(0, 5).forEach(t => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = t.image;
+    document.head.appendChild(link);
+  });
+}, 2000);
 </script>
 </body>
 </html>
