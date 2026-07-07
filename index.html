@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>做什么？</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #faf8f5;
+    --text: #2c2c2c;
+    --accent: #e45c3a;
+    --card-bg: #ffffff;
+    --shadow: 0 2px 20px rgba(0,0,0,0.06);
+  }
+
+  body {
+    font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* Subtle background texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(228,92,58,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 70%, rgba(228,92,58,0.03) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.02) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Floating particles */
+  .particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0;
+    animation: floatUp 6s ease-in infinite;
+  }
+  @keyframes floatUp {
+    0%   { opacity: 0; transform: translateY(0) scale(0); }
+    10%  { opacity: 0.12; }
+    80%  { opacity: 0.04; }
+    100% { opacity: 0; transform: translateY(-100vh) scale(1.2); }
+  }
+
+  /* Main container */
+  .main {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  /* Quiet label */
+  .label {
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    color: #999;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  /* The button */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 2px solid #e0dcd7;
+    background: var(--card-bg);
+    color: var(--text);
+    font-size: 1.15rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+    box-shadow: var(--shadow);
+    position: relative;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(228,92,58,0.14);
+  }
+  .btn:active {
+    transform: scale(0.94);
+    transition: all 0.15s ease;
+  }
+
+  /* Ripple ring on click */
+  .btn::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent);
+    opacity: 0;
+    transform: scale(0.85);
+    transition: all 0.5s ease;
+  }
+  .btn.pulse::after {
+    opacity: 0;
+    transform: scale(1.15);
+    transition: all 0.55s ease-out;
+  }
+  .btn.pulse {
+    animation: pulseRing 0.55s ease-out;
+  }
+  @keyframes pulseRing {
+    0%   { box-shadow: 0 0 0 0 rgba(228,92,58,0.3); }
+    100% { box-shadow: 0 0 0 40px rgba(228,92,58,0); }
+  }
+
+  /* Result card */
+  .result-area {
+    margin-top: 2.8rem;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .result-card {
+    display: inline-block;
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 1.4rem 2.4rem;
+    box-shadow: var(--shadow);
+    animation: cardIn 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  @keyframes cardIn {
+    0%   { opacity: 0; transform: translateY(18px) scale(0.92); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .result-emoji {
+    font-size: 2.4rem;
+    display: block;
+    margin-bottom: 0.4rem;
+    animation: emojiBounce 0.5s ease;
+  }
+  @keyframes emojiBounce {
+    0%   { transform: scale(0.3); opacity: 0; }
+    60%  { transform: scale(1.15); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .result-text {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: 0.03em;
+  }
+
+  /* Subtle hint */
+  .hint {
+    margin-top: 1.2rem;
+    font-size: 0.8rem;
+    color: #bbb;
+    letter-spacing: 0.04em;
+  }
+
+  /* Footer */
+  .footer {
+    position: fixed;
+    bottom: 1.8rem;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.72rem;
+    color: #ccc;
+    letter-spacing: 0.05em;
+    z-index: 1;
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating particles -->
+<div class="particles" id="particles"></div>
+
+<!-- Main -->
+<div class="main">
+  <p class="label">今天</p>
+
+  <button class="btn" id="btn" title="点一下试试">做什么？</button>
+
+  <div class="result-area" id="resultArea"></div>
+  <p class="hint" id="hint">点一下，给生活一点随机</p>
+</div>
+
+<div class="footer">今日宜 · 随心而动</div>
+
+<script>
+  const tasks = [
+    { emoji: '🍜', text: '去吃一份麻辣烫' },
+    { emoji: '🎬', text: '去看一场电影' },
+    { emoji: '☕', text: '去喝一杯手冲咖啡' },
+    { emoji: '📖', text: '读半小时喜欢的书' },
+    { emoji: '🚶', text: '出门散步二十分钟' },
+    { emoji: '🎵', text: '听一张没听过的专辑' },
+    { emoji: '🍰', text: '给自己买一块蛋糕' },
+    { emoji: '✍️', text: '写下今天的三件小事' },
+    { emoji: '🌸', text: '去公园看看花草' },
+    { emoji: '🧹', text: '整理一个抽屉或角落' },
+    { emoji: '📞', text: '给一个老朋友打个电话' },
+    { emoji: '🍳', text: '做一道没做过的菜' },
+    { emoji: '🧘', text: '闭上眼睛冥想五分钟' },
+    { emoji: '🎨', text: '随手画一幅小画' },
+    { emoji: '🛁', text: '泡一个热水澡放松' },
+    { emoji: '🌃', text: '去天台看城市夜景' },
+    { emoji: '🍦', text: '吃一个冰淇淋' },
+    { emoji: '💐', text: '买一束花送给自己' },
+    { emoji: '🚲', text: '骑单车在城市闲逛' },
+    { emoji: '📷', text: '拍十张今天的照片' },
+    { emoji: '🎲', text: '玩一局桌游或卡牌' },
+    { emoji: '🍵', text: '泡一壶茶慢慢喝' },
+    { emoji: '🌿', text: '去花市逛一圈' },
+    { emoji: '🕯️', text: '点上香薰放空一会儿' },
+    { emoji: '🎤', text: '大声唱一首喜欢的歌' },
+    { emoji: '🍣', text: '去吃一顿日料' },
+    { emoji: '🏔️', text: '计划一次周末短途旅行' },
+    { emoji: '🧩', text: '拼一幅拼图' },
+    { emoji: '📝', text: '给未来的自己写封信' },
+    { emoji: '🌅', text: '明天早起看日出' },
+  ];
+
+  const btn = document.getElementById('btn');
+  const resultArea = document.getElementById('resultArea');
+  const hint = document.getElementById('hint');
+  let lastIndex = -1;
+
+  function getRandomTask() {
+    let idx;
+    do {
+      idx = Math.floor(Math.random() * tasks.length);
+    } while (idx === lastIndex && tasks.length > 1);
+    lastIndex = idx;
+    return tasks[idx];
+  }
+
+  function showTask() {
+    const task = getRandomTask();
+
+    // Button feedback
+    btn.classList.add('pulse');
+    setTimeout(() => btn.classList.remove('pulse'), 550);
+
+    // Render result
+    resultArea.innerHTML = `
+      <div class="result-card">
+        <span class="result-emoji">${task.emoji}</span>
+        <span class="result-text">${task.text}</span>
+      </div>
+    `;
+
+    // Fade hint after first click
+    if (hint.style.opacity !== '0') {
+      hint.style.transition = 'opacity 0.6s ease';
+      hint.style.opacity = '0';
+      setTimeout(() => { hint.textContent = '再点一下，换一个'; hint.style.opacity = '1'; }, 600);
+    }
+  }
+
+  btn.addEventListener('click', showTask);
+
+  // Generate floating particles
+  (function spawnParticles() {
+    const container = document.getElementById('particles');
+    const colors = ['#e45c3a', '#d4785c', '#e8916b', '#f0a88c', '#e8c4b8'];
+    for (let i = 0; i < 18; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = 4 + Math.random() * 10;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.bottom = -(size + Math.random() * 40) + 'px';
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.animationDuration = (5 + Math.random() * 8) + 's';
+      p.style.animationDelay = Math.random() * 10 + 's';
+      container.appendChild(p);
+    }
+  })();
+</script>
+</body>
+</html>
